@@ -62,15 +62,29 @@
         .stat-num { display: block; font-size: 1.4em; font-weight: bold; color: var(--accent); }
         .stat-name { font-size: 0.6em; color: #555; text-transform: uppercase; }
 
+        /* Анкета */
+        .forms-section { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .form-link { 
+            background: rgba(255,255,255,0.05); 
+            padding: 10px; 
+            border-radius: 12px; 
+            text-decoration: none; 
+            color: #fff; 
+            font-size: 0.75em; 
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
+        }
+        .form-link:hover { background: var(--accent); color: #000; }
+
         /* Донаты */
-        .donate-section { margin-top: 25px; text-align: left; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
+        .donate-section { margin-top: 15px; text-align: left; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
         .donate-item { background: rgba(255,255,255,0.02); border-radius: 15px; padding: 15px; margin-bottom: 10px; border-left: 4px solid var(--c); }
         .d-title { font-weight: 800; font-size: 0.9em; display: block; margin-bottom: 5px; }
         .d-list { margin: 0; padding-left: 15px; font-size: 0.75em; color: #bbb; list-style: none; }
         .d-list li::before { content: "• "; color: var(--c); margin-left: -12px; }
         .d-kit { font-size: 0.7em; color: #55ff55; display: block; margin-top: 5px; font-weight: bold; }
 
-        /* Партнер и Таймер */
+        /* Партнер */
         .partner-section {
             margin: 25px 0;
             padding: 20px;
@@ -84,20 +98,6 @@
         .time-unit { display: flex; flex-direction: column; }
         .time-val { font-size: 1.5em; font-weight: bold; color: var(--partner); }
         .time-label { font-size: 0.6em; color: #666; }
-
-        /* Ссылки (Блогеры, Модеры) */
-        .forms-section { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .form-link { 
-            background: rgba(255,255,255,0.05); 
-            padding: 10px; 
-            border-radius: 12px; 
-            text-decoration: none; 
-            color: #fff; 
-            font-size: 0.75em; 
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: 0.3s;
-        }
-        .form-link:hover { background: var(--accent); color: #000; }
 
         .socials { display: flex; gap: 10px; }
         .social-link {
@@ -134,8 +134,8 @@
 
         <!-- АНКЕТЫ -->
         <div class="forms-section">
-            <a href="https://forms.gle/SNdRGodAwEc2qKWS7" target="_blank" class="form-link">Для Блогеров</a>
-            <a href="https://forms.gle/eSkMDbYfih8g3FjU6" target="_blank" class="form-link">Для Модеров</a>
+            <a href="https://forms.gle" target="_blank" class="form-link">Для Блогеров</a>
+            <a href="https://forms.gle" target="_blank" class="form-link">Для Модеров</a>
         </div>
 
         <!-- ДОНАТЫ -->
@@ -166,6 +166,15 @@
                     <li>Накормить других (/feed)</li>
                 </ul>
                 <span class="d-kit">НАБОР: /kit king</span>
+            </div>
+
+            <div class="donate-item" style="--c: #ff4444;">
+                <span class="d-title" style="color: #ff4444;">СЕЗОННАЯ</span>
+                <ul class="d-list">
+                    <li>Уникальный сезонный набор вещей</li>
+                    <li>Доступ ко всем китам KING</li>
+                </ul>
+                <span class="d-kit">НАБОР: /kit + /kit king</span>
             </div>
         </div>
 
@@ -211,12 +220,12 @@
                     document.getElementById('motd').innerText = "Сервер активен! Ждем тебя.";
                     return;
                 }
-            } catch (e) { console.log("API Error"); }
+            } catch (e) { console.log("VPN/API Error"); }
         }
         document.getElementById('status').innerText = "ОФЛАЙН";
         document.getElementById('status').style.color = "#ff4444";
         document.getElementById('online').innerText = "0";
-        document.getElementById('motd').innerText = "Сервер отдыхает...";
+        document.getElementById('motd').innerText = "Сервер отдыхает или VPN блокирует связь.";
     }
 
     function updateTimer() {
@@ -234,8 +243,10 @@
     }
 
     function copyIP() {
-        navigator.clipboard.writeText(SERVER_IP + ":" + SERVER_PORT);
-        alert("IP скопирован!");
+        const fullIP = SERVER_IP + ":" + SERVER_PORT;
+        navigator.clipboard.writeText(fullIP).then(() => {
+            alert("IP скопирован: " + fullIP);
+        });
     }
 
     setInterval(updateServer, 45000);
@@ -244,4 +255,4 @@
     updateTimer();
 </script>
 </body>
-    </html>
+</html>
