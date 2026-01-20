@@ -61,7 +61,7 @@
         .stat-num { display: block; font-size: 1.4em; font-weight: bold; color: var(--accent); }
         .stat-name { font-size: 0.6em; color: #555; text-transform: uppercase; }
 
-        /* Анкета (Прямые ссылки без сокращателей) */
+        /* Кнопки анкет */
         .forms-section { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .form-link { 
             background: rgba(255,255,255,0.05); 
@@ -116,7 +116,7 @@
         <h1 class="aluba-text">Alubaworld</h1>
         
         <div class="ip-badge" onclick="copyIP()">
-            <span id="ip-text" style="color: var(--accent)">Alubaworld.aternos.me:11026</span>
+            <span id="ip-display" style="color: var(--accent)">Alubaworld.aternos.me:11026</span>
         </div>
 
         <div class="motd-box" id="motd">Стучимся на сервер...</div>
@@ -132,11 +132,13 @@
             </div>
         </div>
 
+        <!-- АНКЕТЫ -->
         <div class="forms-section">
-            <a href="https://docs.google.com" target="_blank" class="form-link">Для Блогеров</a>
-            <a href="https://docs.google.com" target="_blank" class="form-link">Для Модеров</a>
+            <a href="https://forms.gle/eSkMDbYfih8g3FjU6" target="_blank" class="form-link">Для Блогеров</a>
+            <a href="https://forms.gle/SNdRGodAwEc2qKWS7" target="_blank" class="form-link">Для Модеров</a>
         </div>
 
+        <!-- ДОНАТЫ -->
         <div class="donate-section">
             <div class="donate-item" style="--c: #ff4444;">
                 <span class="d-title" style="color: #ff4444;">ALUBA</span>
@@ -176,6 +178,7 @@
             </div>
         </div>
 
+        <!-- ПАРТНЕР -->
         <div class="partner-section">
             <span class="partner-label">Наш партнер</span>
             <span class="partner-name">HyperLand</span>
@@ -241,10 +244,10 @@
     function copyIP() {
         const fullIP = SERVER_IP + ":" + SERVER_PORT;
         navigator.clipboard.writeText(fullIP).then(() => {
-            const ipText = document.getElementById('ip-text');
-            const original = ipText.innerText;
-            ipText.innerText = "IP СКОПИРОВАН!";
-            setTimeout(() => { ipText.innerText = original; }, 2000);
+            const display = document.getElementById('ip-display');
+            const original = display.innerText;
+            display.innerText = "IP СКОПИРОВАН!";
+            setTimeout(() => { display.innerText = original; }, 2000);
         });
     }
 
@@ -254,4 +257,4 @@
     updateTimer();
 </script>
 </body>
-                                                    </html>
+    </html>
