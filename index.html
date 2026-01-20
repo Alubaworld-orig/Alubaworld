@@ -47,11 +47,6 @@
         .tab-content { max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 15px; font-size: 0.8em; color: var(--text-dim); line-height: 1.6; }
         .tab.active .tab-content { max-height: 250px; padding: 10px 15px; border-top: 1px solid var(--border); }
 
-        .timer-container { display: flex; justify-content: center; gap: 8px; margin-top: 15px; }
-        .time-box { background: rgba(0,212,255,0.05); padding: 10px; border-radius: 12px; border: 1px solid var(--partner); min-width: 65px; text-align: center; }
-        .time-val { display: block; font-size: 1.2em; font-weight: 900; color: var(--partner); }
-        .time-lab { font-size: 0.5em; text-transform: uppercase; }
-
         .btn-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
         .btn { padding: 12px; border-radius: 12px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 0.75em; font-weight: bold; background: rgba(255,255,255,0.03); text-align: center; }
         .social-row { grid-column: span 2; display: flex; gap: 10px; margin-top: 5px; }
@@ -101,7 +96,7 @@
                         <div class="tab-content">Эндер-сундук (/enderchest)<br>Лечение (/heal)<br><b>Kit: /kit glaluba</b></div>
                     </div>
                     <div class="tab" onclick="this.classList.toggle('active')">
-                        <div class="tab-header" style="color: var(--king);">KING <span>+</span></div>
+                        <div class="tab-header" style="color: #a333ff;">KING <span>+</span></div>
                         <div class="tab-content">Полет (/fly)<br>Потушить себя (/ext)<br>Кормить других (/feed)<br><b>Kit: /kit king</b></div>
                     </div>
                     <div class="tab" onclick="this.classList.toggle('active')">
@@ -127,68 +122,57 @@
             <div class="card">
                 <h1 class="section-title" style="background: linear-gradient(to right, var(--partner), #88f0ff); -webkit-background-clip: text;">HyperLand</h1>
                 <p style="font-size: 0.7em; letter-spacing: 2px; color: var(--partner); font-weight: bold; margin-top: 15px;">ПАРТНЕР ПРОЕКТА</p>
-                
-                <div class="timer-container" id="timer">
-                    <div class="time-box"><span class="time-val" id="days">00</span><span class="time-lab">Дн</span></div>
-                    <div class="time-box"><span class="time-val" id="hours">00</span><span class="time-lab">Час</span></div>
-                    <div class="time-box"><span class="time-val" id="mins">00</span><span class="time-lab">Мин</span></div>
-                    <div class="time-box"><span class="time-val" id="secs">00</span><span class="time-lab">Сек</span></div>
-                </div>
                 <p style="margin-top: 30px; font-size: 0.7em; color: var(--text-dim);">AlubaworldOriginalSite &copy; 2026</p>
             </div>
-            <p class="hint">← Назад к Aluba</p>
         </section>
     </div>
 
     <script>
+        // Скрипт навигации
         let currentPage = 0;
         const carousel = document.getElementById('carousel');
         const dots = document.querySelectorAll('.dot');
-
         function scrollToPage(page) {
             currentPage = page;
             carousel.style.transform = `translateX(-${page * 100}vw)`;
             dots.forEach((dot, i) => dot.classList.toggle('active', i === page));
         }
 
-        let xStart = null;
-        window.addEventListener('touchstart', e => xStart = e.touches[0].clientX);
-        window.addEventListener('touchend', e => {
-            let xDiff = xStart - e.changedTouches[0].clientX;
-            if (Math.abs(xDiff) > 80) {
-                if (xDiff > 0 && currentPage === 0) scrollToPage(1);
-                if (xDiff < 0 && currentPage === 1) scrollToPage(0);
-            }
-        });
-
+        // Продвинутая проверка статуса
         async function updateServer() {
             const statusEl = document.getElementById('status');
             const onlineCountEl = document.getElementById('online-count');
+            const ip = "Alubaworld.aternos.me";
+            const port = "11026";
+
             try {
-                const res = await fetch(`https://api.mcsrvstat.us/2/Alubaworld.aternos.me:11026`);
-                const data = await res.json();
-                
+                // Пытаемся получить данные через основной API
+                const response = await fetch(`https://api.mcsrvstat.us/2/${ip}:${port}`);
+                const data = await response.json();
+
                 if (data.online) {
                     statusEl.innerText = "ОНЛАЙН";
                     statusEl.style.color = "#55ff55";
-                    onlineCountEl.innerText = (data.players.online || 0) + " / " + (data.players.max || 0);
+                    onlineCountEl.innerText = `${data.players.online} / ${data.players.max}`;
                 } else {
-                    statusEl.innerText = "ОФЛАЙН";
-                    statusEl.style.color = "#ff4444";
-                    onlineCountEl.innerText = "0 / 0";
+                    // Если основной API говорит "оффлайн", проверяем через запасной
+                    const resBackup = await fetch(`https://mcapi.us/server/status?ip=${ip}&port=${port}`);
+                    const dataBackup = await resBackup.json();
+                    
+                    if (dataBackup.online) {
+                        statusEl.innerText = "ОНЛАЙН";
+                        statusEl.style.color = "#55ff55";
+                        onlineCountEl.innerText = `${dataBackup.players.now} / ${dataBackup.players.max}`;
+                    } else {
+                        statusEl.innerText = "ОФФЛАЙН";
+                        statusEl.style.color = "#ff4444";
+                        onlineCountEl.innerText = "0 / 0";
+                    }
                 }
-            } catch(e) {
-                statusEl.innerText = "ОШИБКА";
-            }
-        }
-
-        function updateTimer() {
-            const diff = new Date("Feb 7, 2026 13:00:00").getTime() - new Date().getTime();
-            if (diff > 0) {
-                document.getElementById('days').innerText = Math.floor(diff / 864e5).toString().padStart(2, '0');
-                document.getElementById('hours').innerText = Math.floor((diff % 864e5) / 36e5).toString().padStart(2, '0');
-                document.getElementById('mins').innerText = Math.floor((diff % 36e5) / 6e4).toString().padStart(2, '0');
-                document.getElementById('secs').innerText = Math.floor((diff % 6e4) / 1000).toString().padStart(2, '0');
+            } catch (error) {
+                console.log("Ошибка API, пробуем снова...");
+                statusEl.innerText = "ОФФЛАЙН";
+                statusEl.style.color = "#ff4444";
             }
         }
 
@@ -201,10 +185,9 @@
             alert("IP скопирован!");
         }
 
-        setInterval(updateServer, 15000); 
-        setInterval(updateTimer, 1000);
-        updateServer(); 
-        updateTimer();
+        // Обновление раз в 10 секунд для точности
+        setInterval(updateServer, 10000);
+        updateServer();
     </script>
 </body>
-                                                                                                                   </html>
+    </html>
