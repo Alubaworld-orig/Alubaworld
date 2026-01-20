@@ -25,10 +25,10 @@
             --accent: #d90429;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); transition: 0.3s; }
 
-        .carousel { display: flex; width: 200vw; height: 100vh; transition: transform 0.5s ease-out; }
+        .carousel { display: flex; width: 200vw; height: 100vh; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         section { width: 100vw; height: 100vh; overflow-y: auto; padding: 40px 20px 100px 20px; display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
 
         .card {
@@ -54,9 +54,7 @@
 
         .btn-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
         .btn { padding: 12px; border-radius: 12px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 0.75em; font-weight: bold; background: rgba(255,255,255,0.03); text-align: center; }
-        .social-row { grid-column: span 2; display: flex; gap: 10px; margin-top: 5px; }
-        .s-btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 0.7em; text-align: center; background: rgba(255,255,255,0.03); }
-
+        
         .theme-btn { position: fixed; top: 15px; left: 15px; z-index: 110; padding: 8px 15px; border-radius: 20px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); cursor: pointer; font-size: 0.7em; font-weight: bold; }
         .hint { font-size: 0.6em; color: var(--text-dim); margin-top: 15px; text-transform: uppercase; letter-spacing: 1px; }
     </style>
@@ -71,10 +69,10 @@
     </div>
 
     <div class="carousel" id="carousel">
-        <section>
+        <section id="page0">
             <div class="card">
                 <h1 class="section-title">Alubaworld</h1>
-                <p style="font-size: 0.7em; color: #55ff55; margin: 5px 0;">Java 1.16.5</p>
+                <p style="font-size: 0.7em; color: #55ff55; margin: 5px 0;">Minecraft 1.16.5</p>
                 
                 <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; color: var(--accent); font-weight: bold; margin: 15px 0; font-family: monospace;" onclick="copyIP()">
                     Alubaworld.aternos.me:11026
@@ -94,35 +92,26 @@
                 <div class="donate-list" style="margin-top: 15px;">
                     <div class="tab" onclick="this.classList.toggle('active')">
                         <div class="tab-header" style="color: #ff4444;">ALUBA <span>+</span></div>
-                        <div class="tab-content">Верстак везде (/craft)<br>Утолить голод (/feed)<br><b>Kit: /kit aluba</b></div>
-                    </div>
-                    <div class="tab" onclick="this.classList.toggle('active')">
-                        <div class="tab-header" style="color: #ff4444;">GL.ALUBA <span>+</span></div>
-                        <div class="tab-content">Эндер-сундук (/enderchest)<br>Лечение (/heal)<br><b>Kit: /kit glaluba</b></div>
+                        <div class="tab-content">/craft, /feed, /kit aluba</div>
                     </div>
                     <div class="tab" onclick="this.classList.toggle('active')">
                         <div class="tab-header" style="color: #a333ff;">KING <span>+</span></div>
-                        <div class="tab-content">Полет (/fly)<br>Потушить себя (/ext)<br>Кормить других (/feed)<br><b>Kit: /kit king</b></div>
+                        <div class="tab-content">/fly, /ext, /kit king</div>
                     </div>
                 </div>
 
                 <div class="btn-group">
-                    <a href="https://forms.gle/SNdRGodAwEc2qKWS7" target="_blank" class="btn" style="border-color:#55ff55">МОДЕР</a>
-                    <a href="https://forms.gle/eSkMDbYfih8g3FjU6" target="_blank" class="btn" style="border-color:#ffaa00">БЛОГЕР</a>
-                    <div class="social-row">
-                        <a href="https://vk.com" target="_blank" class="s-btn">VK</a>
-                        <a href="https://t.me" target="_blank" class="s-btn">TG</a>
-                        <a href="https://discord.gg" target="_blank" class="s-btn">DS</a>
-                    </div>
+                    <a href="#" class="btn" style="border-color:#55ff55">МОДЕР</a>
+                    <a href="#" class="btn" style="border-color:#ffaa00">БЛОГЕР</a>
                 </div>
             </div>
-            <p class="hint">AlubaworldOriginalSite</p>
+            <p class="hint">Свайпни вправо для таймера →</p>
         </section>
 
-        <section>
+        <section id="page1">
             <div class="card">
                 <h1 class="section-title" style="background: linear-gradient(to right, var(--partner), #88f0ff); -webkit-background-clip: text;">HyperLand</h1>
-                <p style="font-size: 0.7em; letter-spacing: 2px; color: var(--partner); font-weight: bold; margin-top: 15px;">ДО ОТКРЫТИЯ ОСТАЛОСЬ:</p>
+                <p style="font-size: 0.7em; letter-spacing: 2px; color: var(--partner); font-weight: bold; margin-top: 15px;">ДО ОТКРЫТИЯ:</p>
                 
                 <div class="timer-container">
                     <div class="time-box"><span class="time-val" id="days">00</span><span class="time-lab">Дн</span></div>
@@ -130,52 +119,43 @@
                     <div class="time-box"><span class="time-val" id="mins">00</span><span class="time-lab">Мин</span></div>
                     <div class="time-box"><span class="time-val" id="secs">00</span><span class="time-lab">Сек</span></div>
                 </div>
-                <p style="margin-top: 30px; font-size: 0.7em; color: var(--text-dim);">AlubaworldOriginalSite &copy; 2026</p>
+                <p style="margin-top: 30px; font-size: 0.6em; opacity: 0.4;">© 2026 AlubaworldOriginalSite</p>
             </div>
-            <p class="hint">← Вернуться</p>
+            <p class="hint">← Назад</p>
         </section>
     </div>
 
     <script>
-        // 1. ПОЧИНКА ЛИСТАНИЯ
-        let currentPos = 0;
+        // 1. ЛИСТАНИЕ (ПОЛНОСТЬЮ ПЕРЕРАБОТАНО)
+        let currentPage = 0;
+        const carousel = document.getElementById('carousel');
+        
         function scrollToPage(index) {
-            currentPos = index;
-            document.getElementById('carousel').style.transform = `translateX(-${index * 100}vw)`;
+            currentPage = index;
+            carousel.style.transform = `translateX(-${index * 100}vw)`;
             document.getElementById('dot0').classList.toggle('active', index === 0);
             document.getElementById('dot1').classList.toggle('active', index === 1);
         }
 
-        let touchStart = 0;
-        window.addEventListener('touchstart', e => touchStart = e.touches[0].clientX);
+        let startX = 0;
+        window.addEventListener('touchstart', e => startX = e.touches[0].clientX);
         window.addEventListener('touchend', e => {
-            let touchEnd = e.changedTouches[0].clientX;
-            if (touchStart - touchEnd > 80) scrollToPage(1);
-            if (touchStart - touchEnd < -80) scrollToPage(0);
+            let endX = e.changedTouches[0].clientX;
+            if (startX - endX > 50) scrollToPage(1);
+            if (startX - endX < -50) scrollToPage(0);
         });
 
-        // 2. ПОЧИНКА ТАЙМЕРА
-        function updateTimer() {
-            const target = new Date("Feb 7, 2026 13:00:00").getTime();
-            const now = new Date().getTime();
-            const diff = target - now;
-            if (diff > 0) {
-                document.getElementById('days').innerText = Math.floor(diff / 864e5).toString().padStart(2, '0');
-                document.getElementById('hours').innerText = Math.floor((diff % 864e5) / 36e5).toString().padStart(2, '0');
-                document.getElementById('mins').innerText = Math.floor((diff % 36e5) / 6e4).toString().padStart(2, '0');
-                document.getElementById('secs').innerText = Math.floor((diff % 6e4) / 1000).toString().padStart(2, '0');
-            }
-        }
-
-        // 3. ПОЧИНКА ДАННЫХ (ТОЧНЫЙ МЕТОД ДЛЯ ATERNOS)
+        // 2. ДАННЫЕ СЕРВЕРА (ОБХОД БЛОКИРОВКИ ATERNOS)
         async function updateServer() {
             const statusEl = document.getElementById('status');
             const onlineCountEl = document.getElementById('online-count');
             
             try {
-                // Прямой запрос к самому быстрому API
-                const res = await fetch(`https://api.mcsrvstat.us/2/Alubaworld.aternos.me:11026`);
-                const data = await res.json();
+                // Используем прокси для обхода CORS политики Aternos
+                const apiAddr = "https://api.mcsrvstat.us/2/Alubaworld.aternos.me:11026";
+                const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(apiAddr)}`);
+                const wrapper = await res.json();
+                const data = JSON.parse(wrapper.contents);
                 
                 if (data.online) {
                     statusEl.innerText = "ОНЛАЙН";
@@ -188,6 +168,18 @@
                 }
             } catch (e) {
                 statusEl.innerText = "ОШИБКА";
+                console.error(e);
+            }
+        }
+
+        // 3. ТАЙМЕР
+        function updateTimer() {
+            const diff = new Date("Feb 7, 2026 13:00:00").getTime() - new Date().getTime();
+            if (diff > 0) {
+                document.getElementById('days').innerText = Math.floor(diff / 864e5).toString().padStart(2, '0');
+                document.getElementById('hours').innerText = Math.floor((diff % 864e5) / 36e5).toString().padStart(2, '0');
+                document.getElementById('mins').innerText = Math.floor((diff % 36e5) / 6e4).toString().padStart(2, '0');
+                document.getElementById('secs').innerText = Math.floor((diff % 6e4) / 1000).toString().padStart(2, '0');
             }
         }
 
@@ -200,11 +192,9 @@
             alert("IP скопирован!");
         }
 
-        // Запуск циклов
+        setInterval(updateServer, 20000); // Раз в 20 сек
         setInterval(updateTimer, 1000);
-        setInterval(updateServer, 15000);
-        updateTimer();
-        updateServer();
+        updateServer(); updateTimer();
     </script>
 </body>
-    </html>
+                            </html>
