@@ -6,7 +6,6 @@
     <title>Alubaworld & HyperLand</title>
     <style>
         :root {
-            /* Темная тема */
             --bg: #050507;
             --card-bg: rgba(255, 255, 255, 0.03);
             --text: #ffffff;
@@ -18,83 +17,80 @@
         }
 
         [data-theme="light"] {
-            /* Улучшенная светлая тема */
             --bg: #ffffff;
-            --card-bg: #f8f9fa;
+            --card-bg: #f2f4f7;
             --text: #1a1a1b;
-            --text-dim: #555;
-            --border: rgba(0, 0, 0, 0.08);
-            --accent: #e63946;
-            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --text-dim: #444;
+            --border: rgba(0, 0, 0, 0.1);
+            --accent: #d90429;
         }
 
         * { box-sizing: border-box; }
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); transition: background 0.5s ease; }
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); transition: 0.3s; }
 
-        /* Горизонтальная карусель */
+        /* Горизонтальный контейнер */
         .carousel { 
-            display: flex;
+            display: flex; 
             width: 200vw; 
             height: 100vh; 
-            transition: transform 0.7s cubic-bezier(0.85, 0, 0.15, 1); 
+            transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1); 
         }
         
         section { 
             width: 100vw; 
             height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            padding: 20px; 
-            position: relative; 
+            overflow-y: auto; /* РАЗРЕШАЕМ ЛИСТАТЬ ВНИЗ НА ТЕЛЕФОНЕ */
+            padding: 60px 20px 100px 20px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .card {
             background: var(--card-bg); 
-            backdrop-filter: blur(25px); 
+            backdrop-filter: blur(20px); 
             border: 1px solid var(--border);
-            border-radius: 35px; 
-            padding: 30px; 
+            border-radius: 28px; 
+            padding: 25px; 
             width: 100%; 
-            max-width: 450px; 
+            max-width: 420px; 
             text-align: center;
-            box-shadow: var(--shadow, 0 20px 60px rgba(0,0,0,0.4));
+            flex-shrink: 0;
         }
 
-        /* Навигация (снизу) */
-        .nav-dots { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px; z-index: 100; }
-        .dot { width: 40px; height: 6px; border-radius: 3px; background: var(--border); cursor: pointer; transition: 0.3s; }
-        .dot.active { background: var(--accent); width: 60px; }
+        .nav-dots { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 100; }
+        .dot { width: 30px; height: 5px; border-radius: 3px; background: var(--border); cursor: pointer; }
+        .dot.active { background: var(--accent); width: 50px; }
 
-        .aluba-text { font-size: 2.5em; font-weight: 900; margin: 0; background: linear-gradient(to right, var(--accent), #ff8888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .aluba-text { font-size: 2.2em; font-weight: 900; margin: 0; background: linear-gradient(to right, var(--accent), #ff8888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        /* Вкладки донатов (как просил) */
-        .donate-section { margin: 20px 0; text-align: left; }
-        .tab { margin-bottom: 8px; border-radius: 15px; border: 1px solid var(--border); background: rgba(127,127,127,0.05); overflow: hidden; }
-        .tab-header { padding: 15px; cursor: pointer; font-size: 0.9em; font-weight: 800; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
-        .tab-content { max-height: 0; overflow: hidden; transition: 0.3s ease-out; font-size: 0.85em; padding: 0 15px; color: var(--text-dim); }
-        .tab.active { border-color: var(--tab-color); }
-        .tab.active .tab-content { max-height: 200px; padding-bottom: 15px; }
+        /* Вкладки */
+        .donate-list { margin: 15px 0; text-align: left; }
+        .tab { margin-bottom: 8px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+        .tab-header { padding: 12px 15px; cursor: pointer; font-size: 0.85em; font-weight: 800; display: flex; justify-content: space-between; }
+        .tab-content { max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 15px; font-size: 0.8em; color: var(--text-dim); line-height: 1.6; }
+        .tab.active .tab-content { max-height: 200px; padding: 10px 15px; border-top: 1px solid var(--border); }
 
-        .hl-text { font-size: 2.5em; font-weight: 900; color: var(--partner); margin-bottom: 10px; }
-        .timer-container { display: flex; justify-content: center; gap: 12px; }
-        .time-box { background: rgba(0,212,255,0.08); padding: 12px; border-radius: 15px; border: 1px solid var(--partner); min-width: 75px; }
-        .time-val { display: block; font-size: 1.6em; font-weight: 900; color: var(--partner); }
-        .time-lab { font-size: 0.6em; text-transform: uppercase; letter-spacing: 1px; }
+        /* Таймер */
+        .timer-container { display: flex; justify-content: center; gap: 8px; margin-top: 15px; }
+        .time-box { background: rgba(0,212,255,0.05); padding: 10px; border-radius: 12px; border: 1px solid var(--partner); min-width: 65px; }
+        .time-val { display: block; font-size: 1.2em; font-weight: 900; color: var(--partner); }
+        .time-lab { font-size: 0.5em; text-transform: uppercase; }
 
-        .btn-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
-        .btn { padding: 12px; border-radius: 15px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 0.8em; font-weight: bold; background: rgba(127,127,127,0.05); text-align: center; transition: 0.2s; }
-        .btn:hover { background: var(--text); color: var(--bg); transform: scale(1.05); }
+        /* Кнопки */
+        .btn-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+        .btn { padding: 12px; border-radius: 12px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 0.75em; font-weight: bold; background: rgba(255,255,255,0.03); text-align: center; }
+        .social-row { grid-column: span 2; display: flex; gap: 10px; margin-top: 5px; }
+        .s-btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 0.7em; text-align: center; background: rgba(255,255,255,0.03); }
 
-        .theme-btn { position: fixed; top: 25px; left: 25px; z-index: 100; padding: 10px 20px; border-radius: 25px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); cursor: pointer; font-weight: bold; box-shadow: var(--shadow); }
+        .theme-btn { position: fixed; top: 15px; left: 15px; z-index: 110; padding: 8px 15px; border-radius: 20px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); cursor: pointer; font-size: 0.7em; font-weight: bold; }
         
-        .side-hint { position: absolute; right: 20px; top: 50%; writing-mode: vertical-rl; font-size: 0.7em; color: var(--text-dim); opacity: 0.5; }
+        .hint { font-size: 0.6em; color: var(--text-dim); margin-top: 15px; text-transform: uppercase; letter-spacing: 1px; }
     </style>
 </head>
 <body data-theme="dark">
 
-    <button class="theme-btn" onclick="toggleTheme()">🌓 СМЕНИТЬ ТЕМУ</button>
+    <button class="theme-btn" onclick="toggleTheme()">🌓 ТЕМА</button>
 
     <div class="nav-dots">
         <div class="dot active" onclick="scrollToPage(0)"></div>
@@ -105,72 +101,82 @@
         <section>
             <div class="card">
                 <h1 class="aluba-text">Alubaworld</h1>
-                <div style="font-size: 0.8em; color: #55ff55; margin: 10px 0;">Minecraft Java 1.16.5</div>
+                <p style="font-size: 0.7em; color: #55ff55; margin: 5px 0;">Java 1.16.5</p>
                 
-                <div style="background: rgba(0,0,0,0.1); padding: 15px; border-radius: 15px; border: 1px solid var(--border); cursor: pointer; color: var(--accent); font-weight: 900; letter-spacing: 1px;" onclick="copyIP()">
+                <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; color: var(--accent); font-weight: bold; margin: 15px 0;" onclick="copyIP()">
                     Alubaworld.aternos.me:11026
                 </div>
 
-                <div style="display: flex; gap: 10px; margin: 20px 0;">
-                    <div style="flex:1; background: rgba(127,127,127,0.05); padding: 12px; border-radius: 15px; border: 1px solid var(--border);">
-                        <span id="online" style="color: #55ff55; font-weight: 900; font-size: 1.4em;">0</span><br>
-                        <span style="font-size: 0.6em; opacity: 0.6;">ОНЛАЙН</span>
+                <div style="display: flex; gap: 8px;">
+                    <div style="flex:1; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 12px; border: 1px solid var(--border);">
+                        <span id="online" style="color: #55ff55; font-weight: 900; font-size: 1.2em;">0</span><br>
+                        <span style="font-size: 0.5em; opacity: 0.6;">ОНЛАЙН</span>
                     </div>
-                    <div style="flex:1; background: rgba(127,127,127,0.05); padding: 12px; border-radius: 15px; border: 1px solid var(--border);">
+                    <div style="flex:1; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 12px; border: 1px solid var(--border);">
                         <span id="status" style="color: #ff4444; font-weight: 900; font-size: 1.1em;">...</span><br>
-                        <span style="font-size: 0.6em; opacity: 0.6;">СТАТУС</span>
+                        <span style="font-size: 0.5em; opacity: 0.6;">СТАТУС</span>
                     </div>
                 </div>
 
-                <div class="donate-section">
-                    <div class="tab" style="--tab-color: #ff4444;" onclick="this.classList.toggle('active')">
+                <div class="donate-list">
+                    <div class="tab" onclick="this.classList.toggle('active')">
                         <div class="tab-header" style="color: #ff4444;">ALUBA <span>+</span></div>
-                        <div class="tab-content">/craft, /feed. <br><b>Kit: /kit aluba</b></div>
+                        <div class="tab-content">
+                            Верстак везде (/craft)<br>Утолить голод (/feed)<br>
+                            <b>Kit: /kit aluba</b>
+                        </div>
                     </div>
-
-                    <div class="tab" style="--tab-color: #ff4444;" onclick="this.classList.toggle('active')">
+                    <div class="tab" onclick="this.classList.toggle('active')">
                         <div class="tab-header" style="color: #ff4444;">GL.ALUBA <span>+</span></div>
-                        <div class="tab-content">/enderchest, /heal. <br><b>Kit: /kit glaluba</b></div>
+                        <div class="tab-content">
+                            Эндер-сундук (/enderchest)<br>Лечение (/heal)<br>
+                            <b>Kit: /kit glaluba</b>
+                        </div>
                     </div>
-
-                    <div class="tab" style="--tab-color: var(--king);" onclick="this.classList.toggle('active')">
+                    <div class="tab" onclick="this.classList.toggle('active')">
                         <div class="tab-header" style="color: var(--king);">KING <span>+</span></div>
-                        <div class="tab-content">/fly, /ext, /feed (игроков). <br><b>Kit: /kit king</b></div>
+                        <div class="tab-content">
+                            Полет (/fly)<br>Потушить себя (/ext)<br>Кормить других (/feed)<br>
+                            <b>Kit: /kit king</b>
+                        </div>
                     </div>
-
-                    <div class="tab" style="--tab-color: #55ff55;" onclick="this.classList.toggle('active')">
+                    <div class="tab" onclick="this.classList.toggle('active')">
                         <div class="tab-header" style="color: #55ff55;">СЕЗОННАЯ <span>+</span></div>
-                        <div class="tab-content">Права KING + уникальный префикс и набор ресурсов.</div>
+                        <div class="tab-content">
+                            Права KING + уникальный сезонный префикс и набор ресурсов.<br>
+                            <b>Kit: /kit king + /kit season</b>
+                        </div>
                     </div>
                 </div>
 
                 <div class="btn-group">
                     <a href="https://forms.gle/SNdRGodAwEc2qKWS7" target="_blank" class="btn" style="border-color:#55ff55">МОДЕР</a>
                     <a href="https://forms.gle/eSkMDbYfih8g3FjU6" target="_blank" class="btn" style="border-color:#ffaa00">БЛОГЕР</a>
-                    <a href="https://vk.com" target="_blank" class="btn">VK</a>
-                    <a href="https://t.me" target="_blank" class="btn">TG</a>
-                    <a href="https://discord.gg" target="_blank" class="btn" style="grid-column: span 2;">DISCORD</a>
+                    <div class="social-row">
+                        <a href="https://vk.com" class="s-btn">VK</a>
+                        <a href="https://t.me" class="s-btn">TG</a>
+                        <a href="https://discord.gg" class="s-btn">DS</a>
+                    </div>
                 </div>
             </div>
-            <div class="side-hint">ЛИСТАЙ ВБОК →</div>
+            <p class="hint">Листай вбок к HyperLand →</p>
         </section>
 
         <section>
             <div class="card">
-                <div style="font-size: 0.7em; letter-spacing: 3px; color: var(--partner); font-weight: bold; margin-bottom: 10px;">ПАРТНЕР ПРОЕКТА</div>
-                <h1 class="hl-text">HyperLand</h1>
-                <p style="font-size: 0.9em; opacity: 0.7; margin-bottom: 25px;">Глобальное открытие нового сервера</p>
+                <p style="font-size: 0.6em; letter-spacing: 2px; color: var(--partner); font-weight: bold;">ПАРТНЕР</p>
+                <h1 style="color: var(--partner); font-size: 2.2em; margin: 10px 0;">HyperLand</h1>
+                <p style="font-size: 0.8em; opacity: 0.7;">Глобальное открытие проекта</p>
 
                 <div class="timer-container" id="timer">
-                    <div class="time-box"><span class="time-val" id="days">00</span><span class="time-lab">Дней</span></div>
+                    <div class="time-box"><span class="time-val" id="days">00</span><span class="time-lab">Дн</span></div>
                     <div class="time-box"><span class="time-val" id="hours">00</span><span class="time-lab">Час</span></div>
                     <div class="time-box"><span class="time-val" id="mins">00</span><span class="time-lab">Мин</span></div>
                     <div class="time-box"><span class="time-val" id="secs">00</span><span class="time-lab">Сек</span></div>
                 </div>
-
-                <p style="margin-top: 30px; font-size: 0.75em; color: var(--text-dim);">Все новости доступны в соцсетях Alubaworld</p>
+                <p style="margin-top: 30px; font-size: 0.7em; color: var(--text-dim);">Все новости в соцсетях Alubaworld</p>
             </div>
-            <div class="side-hint" style="left: 20px; right: auto;">← НАЗАД</div>
+            <p class="hint">← Назад к Aluba</p>
         </section>
     </div>
 
@@ -185,54 +191,39 @@
             dots.forEach((dot, i) => dot.classList.toggle('active', i === page));
         }
 
-        // Горизонтальный скролл мышкой
-        window.addEventListener('wheel', e => {
-            if (Math.abs(e.deltaY) > 30) {
-                if (e.deltaY > 0 && currentPage === 0) scrollToPage(1);
-                if (e.deltaY < 0 && currentPage === 1) scrollToPage(0);
-            }
-        });
-
-        // Свайпы для телефона
+        // Листание вбок (колесико или тач)
         let xStart = null;
         window.addEventListener('touchstart', e => xStart = e.touches[0].clientX);
         window.addEventListener('touchend', e => {
             let xDiff = xStart - e.changedTouches[0].clientX;
-            if (xDiff > 50 && currentPage === 0) scrollToPage(1);
-            if (xDiff < -50 && currentPage === 1) scrollToPage(0);
+            if (Math.abs(xDiff) > 80) {
+                if (xDiff > 0 && currentPage === 0) scrollToPage(1);
+                if (xDiff < 0 && currentPage === 1) scrollToPage(0);
+            }
         });
 
         async function updateServer() {
             try {
                 const res = await fetch(`https://api.mcsrvstat.us/2/Alubaworld.aternos.me:11026?t=${Date.now()}`);
                 const data = await res.json();
-                const statusEl = document.getElementById('status');
-                const onlineEl = document.getElementById('online');
-                if (data.online) {
-                    statusEl.innerText = "ОНЛАЙН"; statusEl.style.color = "#55ff55";
-                    onlineEl.innerText = data.players.online;
-                } else {
-                    statusEl.innerText = "ОФЛАЙН"; statusEl.style.color = "#ff4444";
-                    onlineEl.innerText = "0";
-                }
+                document.getElementById('status').innerText = data.online ? "ОНЛАЙН" : "ОФЛАЙН";
+                document.getElementById('status').style.color = data.online ? "#55ff55" : "#ff4444";
+                document.getElementById('online').innerText = data.online ? data.players.online : "0";
             } catch(e) {}
         }
 
         function updateTimer() {
-            const target = new Date("Feb 7, 2026 13:00:00 GMT+0300").getTime();
-            const now = new Date().getTime();
-            const diff = target - now;
+            const diff = new Date("Feb 7, 2026 13:00:00").getTime() - new Date().getTime();
             if (diff > 0) {
-                document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-                document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                document.getElementById('secs').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+                document.getElementById('days').innerText = Math.floor(diff / 864e5);
+                document.getElementById('hours').innerText = Math.floor((diff % 864e5) / 36e5);
+                document.getElementById('mins').innerText = Math.floor((diff % 36e5) / 6e4);
+                document.getElementById('secs').innerText = Math.floor((diff % 6e4) / 1000);
             }
         }
 
         function toggleTheme() {
-            const body = document.body;
-            body.setAttribute('data-theme', body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+            document.body.setAttribute('data-theme', document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
         }
 
         function copyIP() {
@@ -242,8 +233,7 @@
 
         setInterval(updateServer, 20000);
         setInterval(updateTimer, 1000);
-        updateServer();
-        updateTimer();
+        updateServer(); updateTimer();
     </script>
 </body>
                                               </html>
