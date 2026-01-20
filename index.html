@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alubaworld & HyperLand</title>
-    <!-- Мета-теги для соцсетей -->
-    <meta property="og:title" content="Alubaworld — Minecraft Сервер">
-    <meta property="og:description" content="IP: Alubaworld.aternos.me:11026. Онлайн, статус, донат, партнер HyperLand.">
-    <meta property="og:image" content="ссылка_на_логотип.png">
-    <meta name="theme-color" content="#55ff55">
-
     <style>
         :root {
             --accent: #55ff55;
@@ -50,73 +44,69 @@
         h1 { font-size: 2.4em; margin: 0; font-weight: 900; letter-spacing: -1px; }
         .aluba-text { background: linear-gradient(to bottom, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* Таймер и Партнер */
-        .partner-section {
-            margin: 25px 0;
-            padding: 20px;
-            background: rgba(0, 212, 255, 0.05);
-            border-radius: 20px;
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .partner-label { font-size: 0.7em; color: var(--partner); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; display: block; }
-        .partner-name { font-size: 1.5em; font-weight: bold; color: #fff; margin-bottom: 10px; display: block; }
-
-        .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            font-family: monospace;
-        }
-
-        .time-unit { display: flex; flex-direction: column; }
-        .time-val { font-size: 1.5em; font-weight: bold; color: var(--partner); }
-        .time-label { font-size: 0.6em; color: #666; }
-
-        /* Статус сервера */
         .ip-badge {
             background: rgba(0,0,0,0.3);
-            padding: 10px;
+            padding: 12px;
             border-radius: 12px;
-            margin-bottom: 15px;
+            margin: 15px 0;
             cursor: pointer;
             border: 1px solid rgba(255,255,255,0.05);
             transition: 0.3s;
         }
         .ip-badge:hover { border-color: var(--accent); }
 
-        .motd-box { font-size: 0.9em; color: #aaa; margin: 15px 0; min-height: 40px; line-height: 1.4; }
+        .motd-box { font-size: 0.9em; color: #aaa; margin: 15px 0; min-height: 40px; }
 
         .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
         .stat-card { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.03); }
         .stat-num { display: block; font-size: 1.4em; font-weight: bold; color: var(--accent); }
         .stat-name { font-size: 0.6em; color: #555; text-transform: uppercase; }
 
-        /* Кнопки */
-        .socials { display: flex; gap: 10px; }
-        .social-link {
-            flex: 1;
-            padding: 12px;
-            border-radius: 14px;
-            text-decoration: none;
-            color: white;
-            font-size: 0.8em;
-            font-weight: bold;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            transition: 0.3s;
-        }
-        .social-link:hover { background: white; color: black; transform: translateY(-3px); }
-        
-        /* Стили для секции донатов */
+        /* Донаты */
         .donate-section { margin-top: 25px; text-align: left; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
         .donate-item { background: rgba(255,255,255,0.02); border-radius: 15px; padding: 15px; margin-bottom: 10px; border-left: 4px solid var(--c); }
         .d-title { font-weight: 800; font-size: 0.9em; display: block; margin-bottom: 5px; }
         .d-list { margin: 0; padding-left: 15px; font-size: 0.75em; color: #bbb; list-style: none; }
         .d-list li::before { content: "• "; color: var(--c); margin-left: -12px; }
         .d-kit { font-size: 0.7em; color: #55ff55; display: block; margin-top: 5px; font-weight: bold; }
+
+        /* Партнер и Таймер */
+        .partner-section {
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        .partner-label { font-size: 0.7em; color: var(--partner); text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .partner-name { font-size: 1.5em; font-weight: bold; margin-bottom: 10px; display: block; }
+        .countdown { display: flex; justify-content: center; gap: 15px; font-family: monospace; }
+        .time-unit { display: flex; flex-direction: column; }
+        .time-val { font-size: 1.5em; font-weight: bold; color: var(--partner); }
+        .time-label { font-size: 0.6em; color: #666; }
+
+        /* Ссылки (Блогеры, Модеры) */
+        .forms-section { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .form-link { 
+            background: rgba(255,255,255,0.05); 
+            padding: 10px; 
+            border-radius: 12px; 
+            text-decoration: none; 
+            color: #fff; 
+            font-size: 0.75em; 
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
+        }
+        .form-link:hover { background: var(--accent); color: #000; }
+
+        .socials { display: flex; gap: 10px; }
+        .social-link {
+            flex: 1; padding: 12px; border-radius: 14px; text-decoration: none;
+            color: white; font-size: 0.8em; font-weight: bold;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+            transition: 0.3s; text-align: center;
+        }
+        .social-link:hover { background: white; color: black; transform: translateY(-3px); }
     </style>
 </head>
 <body>
@@ -142,10 +132,16 @@
             </div>
         </div>
 
-        <!-- БЛОК ДОНАТА -->
+        <!-- АНКЕТЫ -->
+        <div class="forms-section">
+            <a href="https://forms.gle/SNdRGodAwEc2qKWS7" target="_blank" class="form-link">Для Блогеров</a>
+            <a href="https://forms.gle/eSkMDbYfih8g3FjU6" target="_blank" class="form-link">Для Модеров</a>
+        </div>
+
+        <!-- ДОНАТЫ -->
         <div class="donate-section">
-            <div class="donate-item" style="--c: #00d4ff;">
-                <span class="d-title" style="color: #00d4ff;">ALUBA</span>
+            <div class="donate-item" style="--c: #ff4444;">
+                <span class="d-title" style="color: #ff4444;">ALUBA</span>
                 <ul class="d-list">
                     <li>Верстак в любом месте (/craft)</li>
                     <li>Утолить голод (/feed)</li>
@@ -153,8 +149,8 @@
                 <span class="d-kit">НАБОР: /kit aluba</span>
             </div>
 
-            <div class="donate-item" style="--c: #ff55ff;">
-                <span class="d-title" style="color: #ff55ff;">GL.ALUBA</span>
+            <div class="donate-item" style="--c: #ff4444;">
+                <span class="d-title" style="color: #ff4444;">GL.ALUBA</span>
                 <ul class="d-list">
                     <li>Эндер-сундук (/enderchest)</li>
                     <li>Лечить себя и других (/heal)</li>
@@ -162,8 +158,8 @@
                 <span class="d-kit">НАБОР: /kit glaluba</span>
             </div>
 
-            <div class="donate-item" style="--c: #ffaa00;">
-                <span class="d-title" style="color: #ffaa00;">KING</span>
+            <div class="donate-item" style="--c: #a344ff;">
+                <span class="d-title" style="color: #a344ff;">KING</span>
                 <ul class="d-list">
                     <li>Режим полета (/fly)</li>
                     <li>Потушить себя и других (/ext)</li>
@@ -171,23 +167,13 @@
                 </ul>
                 <span class="d-kit">НАБОР: /kit king</span>
             </div>
-
-            <div class="donate-item" style="--c: #ff4444;">
-                <span class="d-title" style="color: #ff4444;">СЕЗОННАЯ</span>
-                <ul class="d-list">
-                    <li>Уникальный сезонный набор</li>
-                    <li>Доступ ко всем китам KING</li>
-                </ul>
-                <span class="d-kit">НАБОР: /kit + /kit king</span>
-            </div>
         </div>
 
-
+        <!-- ПАРТНЕР -->
         <div class="partner-section">
             <span class="partner-label">Наш партнер</span>
             <span class="partner-name">HyperLand</span>
             <div style="font-size: 0.8em; color: #888; margin-bottom: 10px;">Открытие через:</div>
-            
             <div class="countdown" id="timer">
                 <div class="time-unit"><span class="time-val" id="days">00</span><span class="time-label">дн</span></div>
                 <div class="time-unit"><span class="time-val" id="hours">00</span><span class="time-label">час</span></div>
@@ -205,54 +191,57 @@
 </div>
 
 <script>
-    // 1. Логика сервера
+    const SERVER_IP = 'Alubaworld.aternos.me';
+    const SERVER_PORT = '11026';
+
     async function updateServer() {
-        try {
-            const res = await fetch('https://api.mcsrvstat.us');
-            const data = await res.json();
-            
-            if (data.online) {
-                document.getElementById('status').innerText = "ОНЛАЙН";
-                document.getElementById('status').style.color = "#55ff55";
-                document.getElementById('online').innerText = data.players.online;
-                
-                let rawMotd = (data.motd && data.motd.clean) ? data.motd.clean.join(' ') : "Сервер активен!";
-                document.getElementById('motd').innerText = rawMotd.replace(/Вайп\s*(прошел)?\s*\d+\s*месяц[а-я]*/gi, "").trim();
-            } else {
-                document.getElementById('status').innerText = "ОФЛАЙН";
-                document.getElementById('status').style.color = "#ff4444";
-                document.getElementById('online').innerText = "0";
-                document.getElementById('motd').innerText = "Сервер отдыхает...";
-            }
-        } catch(e) { console.log("Ошибка API"); }
+        const apis = [
+            `https://api.mcsrvstat.us{SERVER_IP}:${SERVER_PORT}`,
+            `https://api.minetools.eu{SERVER_IP}/${SERVER_PORT}`
+        ];
+
+        for (let url of apis) {
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                if (data.online || data.players) {
+                    document.getElementById('status').innerText = "ОНЛАЙН";
+                    document.getElementById('status').style.color = "#55ff55";
+                    document.getElementById('online').innerText = data.players.online;
+                    document.getElementById('motd').innerText = "Сервер активен! Ждем тебя.";
+                    return;
+                }
+            } catch (e) { console.log("API Error"); }
+        }
+        document.getElementById('status').innerText = "ОФЛАЙН";
+        document.getElementById('status').style.color = "#ff4444";
+        document.getElementById('online').innerText = "0";
+        document.getElementById('motd').innerText = "Сервер отдыхает...";
     }
 
-    // 2. Логика таймера (7 февраля 13:00 МСК 2026 года)
     function updateTimer() {
         const targetDate = new Date("Feb 7, 2026 13:00:00 GMT+0300").getTime();
         const now = new Date().getTime();
         const diff = targetDate - now;
-
         if (diff > 0) {
             document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
             document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             document.getElementById('secs').innerText = Math.floor((diff % (1000 * 60)) / 1000);
         } else {
-            document.getElementById('timer').innerHTML = "<span style='color:var(--partner)'>ОТКРЫТО!</span>";
+            document.getElementById('timer').innerHTML = "ОТКРЫТО!";
         }
     }
 
     function copyIP() {
-        navigator.clipboard.writeText("Alubaworld.aternos.me:11026");
+        navigator.clipboard.writeText(SERVER_IP + ":" + SERVER_PORT);
         alert("IP скопирован!");
     }
 
-    setInterval(updateServer, 40000);
+    setInterval(updateServer, 45000);
     setInterval(updateTimer, 1000);
     updateServer();
     updateTimer();
 </script>
-
 </body>
-                </html>
+    </html>
