@@ -28,17 +28,17 @@
         * { box-sizing: border-box; }
         body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); transition: 0.3s; }
 
-        .carousel { display: flex; width: 200vw; height: 100vh; transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1); }
-        section { width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 20px 100px 20px; display: flex; flex-direction: column; align-items: center; }
+        .carousel { display: flex; width: 200vw; height: 100vh; transition: transform 0.5s ease-out; }
+        section { width: 100vw; height: 100vh; overflow-y: auto; padding: 40px 20px 100px 20px; display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
 
         .card {
             background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--border);
             border-radius: 28px; padding: 25px; width: 100%; max-width: 420px; text-align: center;
         }
 
-        .nav-dots { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 100; }
-        .dot { width: 30px; height: 5px; border-radius: 3px; background: var(--border); cursor: pointer; }
-        .dot.active { background: var(--accent); width: 50px; }
+        .nav-dots { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 100; }
+        .dot { width: 35px; height: 6px; border-radius: 3px; background: var(--border); cursor: pointer; transition: 0.3s; }
+        .dot.active { background: var(--accent); width: 60px; }
 
         .section-title { font-size: 2.2em; font-weight: 900; margin: 0; background: linear-gradient(to right, var(--accent), #ff8888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
@@ -46,6 +46,11 @@
         .tab-header { padding: 12px 15px; cursor: pointer; font-size: 0.85em; font-weight: 800; display: flex; justify-content: space-between; }
         .tab-content { max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 15px; font-size: 0.8em; color: var(--text-dim); line-height: 1.6; }
         .tab.active .tab-content { max-height: 250px; padding: 10px 15px; border-top: 1px solid var(--border); }
+
+        .timer-container { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
+        .time-box { background: rgba(0,212,255,0.05); padding: 10px; border-radius: 12px; border: 1px solid var(--partner); min-width: 65px; text-align: center; }
+        .time-val { display: block; font-size: 1.2em; font-weight: 900; color: var(--partner); }
+        .time-lab { font-size: 0.5em; text-transform: uppercase; }
 
         .btn-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
         .btn { padding: 12px; border-radius: 12px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 0.75em; font-weight: bold; background: rgba(255,255,255,0.03); text-align: center; }
@@ -61,8 +66,8 @@
     <button class="theme-btn" onclick="toggleTheme()">🌓 ТЕМА</button>
 
     <div class="nav-dots">
-        <div class="dot active" onclick="scrollToPage(0)"></div>
-        <div class="dot" onclick="scrollToPage(1)"></div>
+        <div class="dot active" id="dot0" onclick="scrollToPage(0)"></div>
+        <div class="dot" id="dot1" onclick="scrollToPage(1)"></div>
     </div>
 
     <div class="carousel" id="carousel">
@@ -71,7 +76,7 @@
                 <h1 class="section-title">Alubaworld</h1>
                 <p style="font-size: 0.7em; color: #55ff55; margin: 5px 0;">Java 1.16.5</p>
                 
-                <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; color: var(--accent); font-weight: bold; margin: 15px 0;" onclick="copyIP()">
+                <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; color: var(--accent); font-weight: bold; margin: 15px 0; font-family: monospace;" onclick="copyIP()">
                     Alubaworld.aternos.me:11026
                 </div>
 
@@ -86,7 +91,7 @@
                     </div>
                 </div>
 
-                <div class="donate-list">
+                <div class="donate-list" style="margin-top: 15px;">
                     <div class="tab" onclick="this.classList.toggle('active')">
                         <div class="tab-header" style="color: #ff4444;">ALUBA <span>+</span></div>
                         <div class="tab-content">Верстак везде (/craft)<br>Утолить голод (/feed)<br><b>Kit: /kit aluba</b></div>
@@ -98,10 +103,6 @@
                     <div class="tab" onclick="this.classList.toggle('active')">
                         <div class="tab-header" style="color: #a333ff;">KING <span>+</span></div>
                         <div class="tab-content">Полет (/fly)<br>Потушить себя (/ext)<br>Кормить других (/feed)<br><b>Kit: /kit king</b></div>
-                    </div>
-                    <div class="tab" onclick="this.classList.toggle('active')">
-                        <div class="tab-header" style="color: #55ff55;">СЕЗОННАЯ <span>+</span></div>
-                        <div class="tab-content">Права KING + уникальный префикс и набор ресурсов.<br><b>Kit: /kit king + /kit season</b></div>
                     </div>
                 </div>
 
@@ -121,58 +122,72 @@
         <section>
             <div class="card">
                 <h1 class="section-title" style="background: linear-gradient(to right, var(--partner), #88f0ff); -webkit-background-clip: text;">HyperLand</h1>
-                <p style="font-size: 0.7em; letter-spacing: 2px; color: var(--partner); font-weight: bold; margin-top: 15px;">ПАРТНЕР ПРОЕКТА</p>
+                <p style="font-size: 0.7em; letter-spacing: 2px; color: var(--partner); font-weight: bold; margin-top: 15px;">ДО ОТКРЫТИЯ ОСТАЛОСЬ:</p>
+                
+                <div class="timer-container">
+                    <div class="time-box"><span class="time-val" id="days">00</span><span class="time-lab">Дн</span></div>
+                    <div class="time-box"><span class="time-val" id="hours">00</span><span class="time-lab">Час</span></div>
+                    <div class="time-box"><span class="time-val" id="mins">00</span><span class="time-lab">Мин</span></div>
+                    <div class="time-box"><span class="time-val" id="secs">00</span><span class="time-lab">Сек</span></div>
+                </div>
                 <p style="margin-top: 30px; font-size: 0.7em; color: var(--text-dim);">AlubaworldOriginalSite &copy; 2026</p>
             </div>
+            <p class="hint">← Вернуться</p>
         </section>
     </div>
 
     <script>
-        // Скрипт навигации
-        let currentPage = 0;
-        const carousel = document.getElementById('carousel');
-        const dots = document.querySelectorAll('.dot');
-        function scrollToPage(page) {
-            currentPage = page;
-            carousel.style.transform = `translateX(-${page * 100}vw)`;
-            dots.forEach((dot, i) => dot.classList.toggle('active', i === page));
+        // 1. ПОЧИНКА ЛИСТАНИЯ
+        let currentPos = 0;
+        function scrollToPage(index) {
+            currentPos = index;
+            document.getElementById('carousel').style.transform = `translateX(-${index * 100}vw)`;
+            document.getElementById('dot0').classList.toggle('active', index === 0);
+            document.getElementById('dot1').classList.toggle('active', index === 1);
         }
 
-        // Продвинутая проверка статуса
+        let touchStart = 0;
+        window.addEventListener('touchstart', e => touchStart = e.touches[0].clientX);
+        window.addEventListener('touchend', e => {
+            let touchEnd = e.changedTouches[0].clientX;
+            if (touchStart - touchEnd > 80) scrollToPage(1);
+            if (touchStart - touchEnd < -80) scrollToPage(0);
+        });
+
+        // 2. ПОЧИНКА ТАЙМЕРА
+        function updateTimer() {
+            const target = new Date("Feb 7, 2026 13:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = target - now;
+            if (diff > 0) {
+                document.getElementById('days').innerText = Math.floor(diff / 864e5).toString().padStart(2, '0');
+                document.getElementById('hours').innerText = Math.floor((diff % 864e5) / 36e5).toString().padStart(2, '0');
+                document.getElementById('mins').innerText = Math.floor((diff % 36e5) / 6e4).toString().padStart(2, '0');
+                document.getElementById('secs').innerText = Math.floor((diff % 6e4) / 1000).toString().padStart(2, '0');
+            }
+        }
+
+        // 3. ПОЧИНКА ДАННЫХ (ТОЧНЫЙ МЕТОД ДЛЯ ATERNOS)
         async function updateServer() {
             const statusEl = document.getElementById('status');
             const onlineCountEl = document.getElementById('online-count');
-            const ip = "Alubaworld.aternos.me";
-            const port = "11026";
-
+            
             try {
-                // Пытаемся получить данные через основной API
-                const response = await fetch(`https://api.mcsrvstat.us/2/${ip}:${port}`);
-                const data = await response.json();
-
+                // Прямой запрос к самому быстрому API
+                const res = await fetch(`https://api.mcsrvstat.us/2/Alubaworld.aternos.me:11026`);
+                const data = await res.json();
+                
                 if (data.online) {
                     statusEl.innerText = "ОНЛАЙН";
                     statusEl.style.color = "#55ff55";
                     onlineCountEl.innerText = `${data.players.online} / ${data.players.max}`;
                 } else {
-                    // Если основной API говорит "оффлайн", проверяем через запасной
-                    const resBackup = await fetch(`https://mcapi.us/server/status?ip=${ip}&port=${port}`);
-                    const dataBackup = await resBackup.json();
-                    
-                    if (dataBackup.online) {
-                        statusEl.innerText = "ОНЛАЙН";
-                        statusEl.style.color = "#55ff55";
-                        onlineCountEl.innerText = `${dataBackup.players.now} / ${dataBackup.players.max}`;
-                    } else {
-                        statusEl.innerText = "ОФФЛАЙН";
-                        statusEl.style.color = "#ff4444";
-                        onlineCountEl.innerText = "0 / 0";
-                    }
+                    statusEl.innerText = "ОФФЛАЙН";
+                    statusEl.style.color = "#ff4444";
+                    onlineCountEl.innerText = "0 / 0";
                 }
-            } catch (error) {
-                console.log("Ошибка API, пробуем снова...");
-                statusEl.innerText = "ОФФЛАЙН";
-                statusEl.style.color = "#ff4444";
+            } catch (e) {
+                statusEl.innerText = "ОШИБКА";
             }
         }
 
@@ -185,8 +200,10 @@
             alert("IP скопирован!");
         }
 
-        // Обновление раз в 10 секунд для точности
-        setInterval(updateServer, 10000);
+        // Запуск циклов
+        setInterval(updateTimer, 1000);
+        setInterval(updateServer, 15000);
+        updateTimer();
         updateServer();
     </script>
 </body>
