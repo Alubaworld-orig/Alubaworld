@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alubaworld & HyperLand</title>
+    <style>
+        :root {
+            --accent: #55ff55;
+            --partner: #00d4ff;
+            --bg: #050507;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 50% -20%, #1a2a1a 0%, var(--bg) 80%);
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+            perspective: 1000px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            padding: 30px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            text-align: center;
+        }
+
+        h1 { font-size: 2.4em; margin: 0; font-weight: 900; letter-spacing: -1px; }
+        .aluba-text { background: linear-gradient(to bottom, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* Таймер и Партнер */
+        .partner-section {
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .partner-label { font-size: 0.7em; color: var(--partner); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; display: block; }
+        .partner-name { font-size: 1.5em; font-weight: bold; color: #fff; margin-bottom: 10px; display: block; }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            font-family: monospace;
+        }
+
+        .time-unit { display: flex; flex-direction: column; }
+        .time-val { font-size: 1.5em; font-weight: bold; color: var(--partner); }
+        .time-label { font-size: 0.6em; color: #666; }
+
+        /* Статус сервера */
+        .ip-badge {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+        .ip-badge:hover { border-color: var(--accent); }
+
+        .motd-box { font-size: 0.9em; color: #aaa; margin: 15px 0; min-height: 40px; line-height: 1.4; }
+
+        .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.03); }
+        .stat-num { display: block; font-size: 1.4em; font-weight: bold; color: var(--accent); }
+        .stat-name { font-size: 0.6em; color: #555; text-transform: uppercase; }
+
+        /* Кнопки */
+        .socials { display: flex; gap: 10px; }
+        .social-link {
+            flex: 1;
+            padding: 12px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: white;
+            font-size: 0.8em;
+            font-weight: bold;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: 0.3s;
+        }
+        .social-link:hover { background: white; color: black; transform: translateY(-3px); }
+
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="card">
+        <h1 class="aluba-text">Alubaworld</h1>
+        
+        <div class="ip-badge" onclick="copyIP()">
+            <span style="color: var(--accent)">Alubaworld.aternos.me</span>
+        </div>
+
+        <div class="motd-box" id="motd">Стучимся на сервер...</div>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="stat-num" id="online">0</span>
+                <span class="stat-name">Онлайн</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-num" id="status" style="font-size: 0.9em; margin-top: 5px;">...</span>
+                <span class="stat-name">Статус</span>
+            </div>
+        </div>
+
+        <div class="partner-section">
+            <span class="partner-label">Наш партнер</span>
+            <span class="partner-name">HyperLand</span>
+            <div style="font-size: 0.8em; color: #888; margin-bottom: 10px;">Открытие через:</div>
+            
+            <div class="countdown" id="timer">
+                <div class="time-unit"><span class="time-val" id="days">00</span><span class="time-label">дн</span></div>
+                <div class="time-unit"><span class="time-val" id="hours">00</span><span class="time-label">час</span></div>
+                <div class="time-unit"><span class="time-val" id="mins">00</span><span class="time-label">мин</span></div>
+                <div class="time-unit"><span class="time-val" id="secs">00</span><span class="time-label">сек</span></div>
+            </div>
+        </div>
+
+        <div class="socials">
+            <a href="https://t.me/Alubaworld" target="_blank" class="social-link">TG</a>
+            <a href="https://vk.com/club233224675" target="_blank" class="social-link">VK</a>
+            <a href="https://discord.gg/jP3uEF5pS" target="_blank" class="social-link">DS</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. Логика сервера
+    async function updateServer() {
+        try {
+            const res = await fetch('https://api.mcsrvstat.us/2/Alubaworld.aternos.me:11026');
+            const data = await res.json();
+            
+            if (data.online) {
+                document.getElementById('status').innerText = "ОНЛАЙН";
+                document.getElementById('status').style.color = "#55ff55";
+                document.getElementById('online').innerText = data.players.online;
+                
+                let rawMotd = (data.motd && data.motd.clean) ? data.motd.clean.join(' ') : "Сервер активен!";
+                // Вырезание вайпа
+                document.getElementById('motd').innerText = rawMotd.replace(/Вайп\s*(прошел)?\s*\d+\s*месяц[а-я]*/gi, "").trim();
+            } else {
+                document.getElementById('status').innerText = "ОФЛАЙН";
+                document.getElementById('status').style.color = "#ff4444";
+                document.getElementById('online').innerText = "0";
+                document.getElementById('motd').innerText = "Сервер отдыхает...";
+            }
+        } catch(e) { console.log("Ошибка API"); }
+    }
+
+    // 2. Логика таймера (7 февраля 13:00 МСК)
+    function updateTimer() {
+        // 7 февраля 2026 (или текущего года) 13:00 MSK
+        const targetDate = new Date("Feb 7, 2026 13:00:00 GMT+0300").getTime();
+        const now = new Date().getTime();
+        const diff = targetDate - now;
+
+        if (diff > 0) {
+            document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById('secs').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+        } else {
+            document.getElementById('timer').innerHTML = "<span style='color:var(--partner)'>ОТКРЫТО!</span>";
+        }
+    }
+
+    function copyIP() {
+        navigator.clipboard.writeText("Alubaworld.aternos.me:11026");
+        alert("IP скопирован!");
+    }
+
+    setInterval(updateServer, 40000);
+    setInterval(updateTimer, 1000);
+    updateServer();
+    updateTimer();
+</script>
+
+</body>
+</html>
