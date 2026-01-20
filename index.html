@@ -74,7 +74,7 @@
                 <h1 class="section-title">Alubaworld</h1>
                 <p style="font-size: 0.7em; color: #55ff55; margin: 5px 0;">Minecraft 1.16.5</p>
                 
-                <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; color: var(--accent); font-weight: bold; margin: 15px 0; font-family: monospace;" onclick="copyIP()">
+                <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; color: var(--accent); font-weight: bold; margin: 15px 0;" onclick="copyIP()">
                     Alubaworld.aternos.me:11026
                 </div>
 
@@ -127,14 +127,15 @@
                     <div class="time-box"><span class="time-val" id="mins">00</span><span class="time-lab">Мин</span></div>
                     <div class="time-box"><span class="time-val" id="secs">00</span><span class="time-lab">Сек</span></div>
                 </div>
-                <p style="margin-top: 40px; font-size: 0.6em; opacity: 0.5;">© 2026 AlubaworldOriginalSite</p>
+                <p style="margin-top: 40px; font-size: 0.6em; opacity: 0.6;">
+                    © 2026 AlubaworldOriginalSite
+                </p>
             </div>
             <p class="hint">← Назад</p>
         </section>
     </div>
 
     <script>
-        // ЛИСТАНИЕ
         let currentIdx = 0;
         function scrollToPage(idx) {
             currentIdx = idx;
@@ -151,12 +152,16 @@
             if (sX - eX < -60) scrollToPage(0);
         });
 
-        // МОНИТОРИНГ (НОВЫЙ МЕТОД)
+        // САМЫЙ ТОЧНЫЙ МОНИТОРИНГ
         async function updateServer() {
             const statusEl = document.getElementById('status');
             const onlineCountEl = document.getElementById('online-count');
+            const ip = "Alubaworld.aternos.me";
+            const port = "11026";
+
             try {
-                const res = await fetch('https://api.mcsrvstat.us/2/Alubaworld.aternos.me:11026');
+                // Попытка 1: MCSrvStat
+                const res = await fetch(`https://api.mcsrvstat.us/2/${ip}:${port}`);
                 const data = await res.json();
                 
                 if (data.online) {
@@ -164,20 +169,27 @@
                     statusEl.style.color = "#55ff55";
                     onlineCountEl.innerText = `${data.players.online} / ${data.players.max}`;
                 } else {
-                    statusEl.innerText = "ОФФЛАЙН";
-                    statusEl.style.color = "#ff4444";
-                    onlineCountEl.innerText = "0 / 0";
+                    // Попытка 2: MinecraftApi
+                    const res2 = await fetch(`https://eu.mc-api.net/v3/server/status/${ip}:${port}`);
+                    const data2 = await res2.json();
+                    
+                    if (data2.online) {
+                        statusEl.innerText = "ОНЛАЙН";
+                        statusEl.style.color = "#55ff55";
+                        onlineCountEl.innerText = `${data2.players.online} / ${data2.players.max}`;
+                    } else {
+                        statusEl.innerText = "ОФФЛАЙН";
+                        statusEl.style.color = "#ff4444";
+                        onlineCountEl.innerText = "0 / 0";
+                    }
                 }
             } catch (e) {
-                statusEl.innerText = "ОШИБКА";
+                statusEl.innerText = "ОФФЛАЙН";
             }
         }
 
-        // ТАЙМЕР
         function updateTimer() {
-            const target = new Date("Feb 7, 2026 13:00:00").getTime();
-            const now = new Date().getTime();
-            const diff = target - now;
+            const diff = new Date("Feb 7, 2026 13:00:00").getTime() - new Date().getTime();
             if (diff > 0) {
                 document.getElementById('days').innerText = Math.floor(diff / 864e5).toString().padStart(2, '0');
                 document.getElementById('hours').innerText = Math.floor((diff % 864e5) / 36e5).toString().padStart(2, '0');
@@ -195,9 +207,9 @@
             alert("IP скопирован!");
         }
 
-        setInterval(updateServer, 15000);
+        setInterval(updateServer, 10000); // Опрос каждые 10 секунд
         setInterval(updateTimer, 1000);
         updateServer(); updateTimer();
     </script>
 </body>
-                </html>
+                    </html>
