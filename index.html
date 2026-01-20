@@ -56,7 +56,7 @@
         .btn { padding: 12px; border-radius: 12px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 0.75em; font-weight: bold; background: rgba(255,255,255,0.03); text-align: center; }
         
         .theme-btn { position: fixed; top: 15px; left: 15px; z-index: 110; padding: 8px 15px; border-radius: 20px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); cursor: pointer; font-size: 0.7em; font-weight: bold; }
-        .hint { font-size: 0.6em; color: var(--text-dim); margin-top: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .hint { font-size: 0.6em; color: var(--text-dim); margin: 15px 0; text-transform: uppercase; letter-spacing: 1px; }
     </style>
 </head>
 <body data-theme="dark">
@@ -69,7 +69,7 @@
     </div>
 
     <div class="carousel" id="carousel">
-        <section id="page0">
+        <section>
             <div class="card">
                 <h1 class="section-title">Alubaworld</h1>
                 <p style="font-size: 0.7em; color: #55ff55; margin: 5px 0;">Minecraft 1.16.5</p>
@@ -92,23 +92,31 @@
                 <div class="donate-list" style="margin-top: 15px;">
                     <div class="tab" onclick="this.classList.toggle('active')">
                         <div class="tab-header" style="color: #ff4444;">ALUBA <span>+</span></div>
-                        <div class="tab-content">/craft, /feed, /kit aluba</div>
+                        <div class="tab-content">Верстак везде (/craft)<br>Утолить голод (/feed)<br><b>Kit: /kit aluba</b></div>
                     </div>
                     <div class="tab" onclick="this.classList.toggle('active')">
-                        <div class="tab-header" style="color: #a333ff;">KING <span>+</span></div>
-                        <div class="tab-content">/fly, /ext, /kit king</div>
+                        <div class="tab-header" style="color: #ff4444;">GL.ALUBA <span>+</span></div>
+                        <div class="tab-content">Эндер-сундук (/enderchest)<br>Лечение (/heal)<br><b>Kit: /kit glaluba</b></div>
+                    </div>
+                    <div class="tab" onclick="this.classList.toggle('active')">
+                        <div class="tab-header" style="color: var(--king);">KING <span>+</span></div>
+                        <div class="tab-content">Полет (/fly)<br>Потушить себя (/ext)<br>Кормить других (/feed)<br><b>Kit: /kit king</b></div>
+                    </div>
+                    <div class="tab" onclick="this.classList.toggle('active')">
+                        <div class="tab-header" style="color: #55ff55;">СЕЗОННАЯ <span>+</span></div>
+                        <div class="tab-content">Права KING + уникальный префикс и набор ресурсов.<br><b>Kit: /kit king + /kit season</b></div>
                     </div>
                 </div>
 
                 <div class="btn-group">
-                    <a href="#" class="btn" style="border-color:#55ff55">МОДЕР</a>
-                    <a href="#" class="btn" style="border-color:#ffaa00">БЛОГЕР</a>
+                    <a href="https://forms.gle/SNdRGodAwEc2qKWS7" target="_blank" class="btn" style="border-color:#55ff55">МОДЕР</a>
+                    <a href="https://forms.gle/eSkMDbYfih8g3FjU6" target="_blank" class="btn" style="border-color:#ffaa00">БЛОГЕР</a>
                 </div>
             </div>
-            <p class="hint">Свайпни вправо для таймера →</p>
+            <p class="hint">AlubaworldOriginalSite</p>
         </section>
 
-        <section id="page1">
+        <section>
             <div class="card">
                 <h1 class="section-title" style="background: linear-gradient(to right, var(--partner), #88f0ff); -webkit-background-clip: text;">HyperLand</h1>
                 <p style="font-size: 0.7em; letter-spacing: 2px; color: var(--partner); font-weight: bold; margin-top: 15px;">ДО ОТКРЫТИЯ:</p>
@@ -119,43 +127,37 @@
                     <div class="time-box"><span class="time-val" id="mins">00</span><span class="time-lab">Мин</span></div>
                     <div class="time-box"><span class="time-val" id="secs">00</span><span class="time-lab">Сек</span></div>
                 </div>
-                <p style="margin-top: 30px; font-size: 0.6em; opacity: 0.4;">© 2026 AlubaworldOriginalSite</p>
+                <p style="margin-top: 40px; font-size: 0.6em; opacity: 0.5;">© 2026 AlubaworldOriginalSite</p>
             </div>
             <p class="hint">← Назад</p>
         </section>
     </div>
 
     <script>
-        // 1. ЛИСТАНИЕ (ПОЛНОСТЬЮ ПЕРЕРАБОТАНО)
-        let currentPage = 0;
-        const carousel = document.getElementById('carousel');
-        
-        function scrollToPage(index) {
-            currentPage = index;
-            carousel.style.transform = `translateX(-${index * 100}vw)`;
-            document.getElementById('dot0').classList.toggle('active', index === 0);
-            document.getElementById('dot1').classList.toggle('active', index === 1);
+        // ЛИСТАНИЕ
+        let currentIdx = 0;
+        function scrollToPage(idx) {
+            currentIdx = idx;
+            document.getElementById('carousel').style.transform = `translateX(-${idx * 100}vw)`;
+            document.getElementById('dot0').classList.toggle('active', idx === 0);
+            document.getElementById('dot1').classList.toggle('active', idx === 1);
         }
 
-        let startX = 0;
-        window.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+        let sX = 0;
+        window.addEventListener('touchstart', e => sX = e.touches[0].clientX);
         window.addEventListener('touchend', e => {
-            let endX = e.changedTouches[0].clientX;
-            if (startX - endX > 50) scrollToPage(1);
-            if (startX - endX < -50) scrollToPage(0);
+            let eX = e.changedTouches[0].clientX;
+            if (sX - eX > 60) scrollToPage(1);
+            if (sX - eX < -60) scrollToPage(0);
         });
 
-        // 2. ДАННЫЕ СЕРВЕРА (ОБХОД БЛОКИРОВКИ ATERNOS)
+        // МОНИТОРИНГ (НОВЫЙ МЕТОД)
         async function updateServer() {
             const statusEl = document.getElementById('status');
             const onlineCountEl = document.getElementById('online-count');
-            
             try {
-                // Используем прокси для обхода CORS политики Aternos
-                const apiAddr = "https://api.mcsrvstat.us/2/Alubaworld.aternos.me:11026";
-                const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(apiAddr)}`);
-                const wrapper = await res.json();
-                const data = JSON.parse(wrapper.contents);
+                const res = await fetch('https://api.mcsrvstat.us/2/Alubaworld.aternos.me:11026');
+                const data = await res.json();
                 
                 if (data.online) {
                     statusEl.innerText = "ОНЛАЙН";
@@ -168,13 +170,14 @@
                 }
             } catch (e) {
                 statusEl.innerText = "ОШИБКА";
-                console.error(e);
             }
         }
 
-        // 3. ТАЙМЕР
+        // ТАЙМЕР
         function updateTimer() {
-            const diff = new Date("Feb 7, 2026 13:00:00").getTime() - new Date().getTime();
+            const target = new Date("Feb 7, 2026 13:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = target - now;
             if (diff > 0) {
                 document.getElementById('days').innerText = Math.floor(diff / 864e5).toString().padStart(2, '0');
                 document.getElementById('hours').innerText = Math.floor((diff % 864e5) / 36e5).toString().padStart(2, '0');
@@ -192,9 +195,9 @@
             alert("IP скопирован!");
         }
 
-        setInterval(updateServer, 20000); // Раз в 20 сек
+        setInterval(updateServer, 15000);
         setInterval(updateTimer, 1000);
         updateServer(); updateTimer();
     </script>
 </body>
-                            </html>
+                </html>
