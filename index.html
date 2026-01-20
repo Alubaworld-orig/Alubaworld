@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alubaworld & HyperLand</title>
+    <!-- Мета-теги для соцсетей -->
+    <meta property="og:title" content="Alubaworld — Minecraft Сервер">
+    <meta property="og:description" content="IP: Alubaworld.aternos.me:11026. Онлайн, статус, донат, партнер HyperLand.">
+    <meta property="og:image" content="ссылка_на_логотип.png">
+    <meta name="theme-color" content="#55ff55">
+
     <style>
         :root {
             --accent: #55ff55;
@@ -103,7 +109,14 @@
             transition: 0.3s;
         }
         .social-link:hover { background: white; color: black; transform: translateY(-3px); }
-
+        
+        /* Стили для секции донатов */
+        .donate-section { margin-top: 25px; text-align: left; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
+        .donate-item { background: rgba(255,255,255,0.02); border-radius: 15px; padding: 15px; margin-bottom: 10px; border-left: 4px solid var(--c); }
+        .d-title { font-weight: 800; font-size: 0.9em; display: block; margin-bottom: 5px; }
+        .d-list { margin: 0; padding-left: 15px; font-size: 0.75em; color: #bbb; list-style: none; }
+        .d-list li::before { content: "• "; color: var(--c); margin-left: -12px; }
+        .d-kit { font-size: 0.7em; color: #55ff55; display: block; margin-top: 5px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -113,7 +126,7 @@
         <h1 class="aluba-text">Alubaworld</h1>
         
         <div class="ip-badge" onclick="copyIP()">
-            <span style="color: var(--accent)">Alubaworld.aternos.me</span>
+            <span style="color: var(--accent)">Alubaworld.aternos.me:11026</span>
         </div>
 
         <div class="motd-box" id="motd">Стучимся на сервер...</div>
@@ -129,6 +142,47 @@
             </div>
         </div>
 
+        <!-- БЛОК ДОНАТА -->
+        <div class="donate-section">
+            <div class="donate-item" style="--c: #00d4ff;">
+                <span class="d-title" style="color: #00d4ff;">ALUBA</span>
+                <ul class="d-list">
+                    <li>Верстак в любом месте (/craft)</li>
+                    <li>Утолить голод (/feed)</li>
+                </ul>
+                <span class="d-kit">НАБОР: /kit aluba</span>
+            </div>
+
+            <div class="donate-item" style="--c: #ff55ff;">
+                <span class="d-title" style="color: #ff55ff;">GL.ALUBA</span>
+                <ul class="d-list">
+                    <li>Эндер-сундук (/enderchest)</li>
+                    <li>Лечить себя и других (/heal)</li>
+                </ul>
+                <span class="d-kit">НАБОР: /kit glaluba</span>
+            </div>
+
+            <div class="donate-item" style="--c: #ffaa00;">
+                <span class="d-title" style="color: #ffaa00;">KING</span>
+                <ul class="d-list">
+                    <li>Режим полета (/fly)</li>
+                    <li>Потушить себя и других (/ext)</li>
+                    <li>Накормить других (/feed)</li>
+                </ul>
+                <span class="d-kit">НАБОР: /kit king</span>
+            </div>
+
+            <div class="donate-item" style="--c: #ff4444;">
+                <span class="d-title" style="color: #ff4444;">СЕЗОННАЯ</span>
+                <ul class="d-list">
+                    <li>Уникальный сезонный набор</li>
+                    <li>Доступ ко всем китам KING</li>
+                </ul>
+                <span class="d-kit">НАБОР: /kit + /kit king</span>
+            </div>
+        </div>
+
+
         <div class="partner-section">
             <span class="partner-label">Наш партнер</span>
             <span class="partner-name">HyperLand</span>
@@ -143,9 +197,9 @@
         </div>
 
         <div class="socials">
-            <a href="https://t.me/Alubaworld" target="_blank" class="social-link">TG</a>
-            <a href="https://vk.com/club233224675" target="_blank" class="social-link">VK</a>
-            <a href="https://discord.gg/jP3uEF5pS" target="_blank" class="social-link">DS</a>
+            <a href="https://t.me" target="_blank" class="social-link">TG</a>
+            <a href="https://vk.com" target="_blank" class="social-link">VK</a>
+            <a href="https://discord.gg" target="_blank" class="social-link">DS</a>
         </div>
     </div>
 </div>
@@ -154,7 +208,7 @@
     // 1. Логика сервера
     async function updateServer() {
         try {
-            const res = await fetch('https://api.mcsrvstat.us/2/Alubaworld.aternos.me:11026');
+            const res = await fetch('https://api.mcsrvstat.us');
             const data = await res.json();
             
             if (data.online) {
@@ -163,7 +217,6 @@
                 document.getElementById('online').innerText = data.players.online;
                 
                 let rawMotd = (data.motd && data.motd.clean) ? data.motd.clean.join(' ') : "Сервер активен!";
-                // Вырезание вайпа
                 document.getElementById('motd').innerText = rawMotd.replace(/Вайп\s*(прошел)?\s*\d+\s*месяц[а-я]*/gi, "").trim();
             } else {
                 document.getElementById('status').innerText = "ОФЛАЙН";
@@ -174,9 +227,8 @@
         } catch(e) { console.log("Ошибка API"); }
     }
 
-    // 2. Логика таймера (7 февраля 13:00 МСК)
+    // 2. Логика таймера (7 февраля 13:00 МСК 2026 года)
     function updateTimer() {
-        // 7 февраля 2026 (или текущего года) 13:00 MSK
         const targetDate = new Date("Feb 7, 2026 13:00:00 GMT+0300").getTime();
         const now = new Date().getTime();
         const diff = targetDate - now;
@@ -203,4 +255,4 @@
 </script>
 
 </body>
-</html>
+                </html>
