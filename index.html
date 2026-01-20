@@ -74,7 +74,7 @@
                 <h1 class="section-title">Alubaworld</h1>
                 <p style="font-size: 0.7em; color: #55ff55; margin: 5px 0;">Minecraft 1.16.5</p>
                 
-                <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; color: var(--accent); font-weight: bold; margin: 15px 0;" onclick="copyIP()">
+                <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; color: var(--accent); font-weight: bold; margin: 15px 0; font-family: monospace;" onclick="copyIP()">
                     Alubaworld.aternos.me:11026
                 </div>
 
@@ -136,6 +136,7 @@
     </div>
 
     <script>
+        // ЛИСТАНИЕ
         let currentIdx = 0;
         function scrollToPage(idx) {
             currentIdx = idx;
@@ -152,39 +153,52 @@
             if (sX - eX < -60) scrollToPage(0);
         });
 
-        // САМЫЙ ТОЧНЫЙ МОНИТОРИНГ
+        // МОНИТОРИНГ: АГРЕССИВНЫЙ РЕЖИМ
         async function updateServer() {
             const statusEl = document.getElementById('status');
             const onlineCountEl = document.getElementById('online-count');
             const ip = "Alubaworld.aternos.me";
             const port = "11026";
 
-            try {
-                // Попытка 1: MCSrvStat
-                const res = await fetch(`https://api.mcsrvstat.us/2/${ip}:${port}`);
-                const data = await res.json();
-                
-                if (data.online) {
-                    statusEl.innerText = "ОНЛАЙН";
-                    statusEl.style.color = "#55ff55";
-                    onlineCountEl.innerText = `${data.players.online} / ${data.players.max}`;
-                } else {
-                    // Попытка 2: MinecraftApi
-                    const res2 = await fetch(`https://eu.mc-api.net/v3/server/status/${ip}:${port}`);
-                    const data2 = await res2.json();
-                    
-                    if (data2.online) {
-                        statusEl.innerText = "ОНЛАЙН";
-                        statusEl.style.color = "#55ff55";
-                        onlineCountEl.innerText = `${data2.players.online} / ${data2.players.max}`;
-                    } else {
-                        statusEl.innerText = "ОФФЛАЙН";
-                        statusEl.style.color = "#ff4444";
-                        onlineCountEl.innerText = "0 / 0";
-                    }
-                }
-            } catch (e) {
+            // Функция обновления интерфейса, чтобы не дублировать код
+            const setOnline = (current, max) => {
+                statusEl.innerText = "ОНЛАЙН";
+                statusEl.style.color = "#55ff55";
+                onlineCountEl.innerText = `${current} / ${max}`;
+            };
+
+            const setOffline = () => {
                 statusEl.innerText = "ОФФЛАЙН";
+                statusEl.style.color = "#ff4444";
+                onlineCountEl.innerText = "0 / 0";
+            };
+
+            try {
+                // ШАГ 1: MCSrvStat (самый надежный)
+                let res = await fetch(`https://api.mcsrvstat.us/2/${ip}:${port}`);
+                let data = await res.json();
+
+                if (data.online) {
+                    setOnline(data.players.online, data.players.max);
+                    return; // Если получили данные, выходим
+                }
+
+                // ШАГ 2: Если первый сказал "Оффлайн", проверяем через MCAPI.us
+                console.log("Первый сервис не видит сервер, пробуем второй...");
+                let res2 = await fetch(`https://mcapi.us/server/status?ip=${ip}&port=${port}`);
+                let data2 = await res2.json();
+
+                if (data2.online) {
+                    setOnline(data2.players.now, data2.players.max);
+                } else {
+                    // Если оба сказали "Оффлайн", значит сервер реально выключен
+                    setOffline();
+                }
+
+            } catch (e) {
+                console.error("Ошибка при проверке:", e);
+                // Если произошла ошибка сети, но старые данные были "Онлайн", не сбрасываем сразу
+                if (statusEl.innerText !== "ОНЛАЙН") setOffline();
             }
         }
 
@@ -207,9 +221,9 @@
             alert("IP скопирован!");
         }
 
-        setInterval(updateServer, 10000); // Опрос каждые 10 секунд
+        setInterval(updateServer, 10000); 
         setInterval(updateTimer, 1000);
         updateServer(); updateTimer();
     </script>
 </body>
-                    </html>
+                        </html>
