@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alubaworld & HyperLand</title>
+    <title>AlubaworldOriginalSite</title>
     <style>
         :root {
             --bg: #050507;
@@ -28,63 +28,36 @@
         * { box-sizing: border-box; }
         body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); transition: 0.3s; }
 
-        /* Горизонтальный контейнер */
-        .carousel { 
-            display: flex; 
-            width: 200vw; 
-            height: 100vh; 
-            transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1); 
-        }
-        
-        section { 
-            width: 100vw; 
-            height: 100vh; 
-            overflow-y: auto; /* РАЗРЕШАЕМ ЛИСТАТЬ ВНИЗ НА ТЕЛЕФОНЕ */
-            padding: 60px 20px 100px 20px; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        .carousel { display: flex; width: 200vw; height: 100vh; transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1); }
+        section { width: 100vw; height: 100vh; overflow-y: auto; padding: 60px 20px 100px 20px; display: flex; flex-direction: column; align-items: center; }
 
         .card {
-            background: var(--card-bg); 
-            backdrop-filter: blur(20px); 
-            border: 1px solid var(--border);
-            border-radius: 28px; 
-            padding: 25px; 
-            width: 100%; 
-            max-width: 420px; 
-            text-align: center;
-            flex-shrink: 0;
+            background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--border);
+            border-radius: 28px; padding: 25px; width: 100%; max-width: 420px; text-align: center;
         }
 
         .nav-dots { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 100; }
         .dot { width: 30px; height: 5px; border-radius: 3px; background: var(--border); cursor: pointer; }
         .dot.active { background: var(--accent); width: 50px; }
 
-        .aluba-text { font-size: 2.2em; font-weight: 900; margin: 0; background: linear-gradient(to right, var(--accent), #ff8888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .site-title { font-size: 1.6em; font-weight: 900; margin: 0; background: linear-gradient(to right, var(--accent), #ff8888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; word-break: break-all; }
         
-        /* Вкладки */
-        .donate-list { margin: 15px 0; text-align: left; }
-        .tab { margin-bottom: 8px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+        .tab { margin-bottom: 8px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255,255,255,0.02); text-align: left; }
         .tab-header { padding: 12px 15px; cursor: pointer; font-size: 0.85em; font-weight: 800; display: flex; justify-content: space-between; }
         .tab-content { max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 15px; font-size: 0.8em; color: var(--text-dim); line-height: 1.6; }
-        .tab.active .tab-content { max-height: 200px; padding: 10px 15px; border-top: 1px solid var(--border); }
+        .tab.active .tab-content { max-height: 250px; padding: 10px 15px; border-top: 1px solid var(--border); }
 
-        /* Таймер */
         .timer-container { display: flex; justify-content: center; gap: 8px; margin-top: 15px; }
-        .time-box { background: rgba(0,212,255,0.05); padding: 10px; border-radius: 12px; border: 1px solid var(--partner); min-width: 65px; }
+        .time-box { background: rgba(0,212,255,0.05); padding: 10px; border-radius: 12px; border: 1px solid var(--partner); min-width: 65px; text-align: center; }
         .time-val { display: block; font-size: 1.2em; font-weight: 900; color: var(--partner); }
         .time-lab { font-size: 0.5em; text-transform: uppercase; }
 
-        /* Кнопки */
         .btn-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
         .btn { padding: 12px; border-radius: 12px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 0.75em; font-weight: bold; background: rgba(255,255,255,0.03); text-align: center; }
         .social-row { grid-column: span 2; display: flex; gap: 10px; margin-top: 5px; }
         .s-btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 0.7em; text-align: center; background: rgba(255,255,255,0.03); }
 
         .theme-btn { position: fixed; top: 15px; left: 15px; z-index: 110; padding: 8px 15px; border-radius: 20px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); cursor: pointer; font-size: 0.7em; font-weight: bold; }
-        
         .hint { font-size: 0.6em; color: var(--text-dim); margin-top: 15px; text-transform: uppercase; letter-spacing: 1px; }
     </style>
 </head>
@@ -100,17 +73,17 @@
     <div class="carousel" id="carousel">
         <section>
             <div class="card">
-                <h1 class="aluba-text">Alubaworld</h1>
-                <p style="font-size: 0.7em; color: #55ff55; margin: 5px 0;">Java 1.16.5</p>
+                <h1 class="site-title">AlubaworldOriginalSite</h1>
+                <p style="font-size: 0.7em; color: #55ff55; margin: 5px 0;">Minecraft Java 1.16.5</p>
                 
-                <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; color: var(--accent); font-weight: bold; margin: 15px 0;" onclick="copyIP()">
+                <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; color: var(--accent); font-weight: bold; margin: 15px 0; font-family: monospace;" onclick="copyIP()">
                     Alubaworld.aternos.me:11026
                 </div>
 
                 <div style="display: flex; gap: 8px;">
-                    <div style="flex:1; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 12px; border: 1px solid var(--border);">
-                        <span id="online" style="color: #55ff55; font-weight: 900; font-size: 1.2em;">0</span><br>
-                        <span style="font-size: 0.5em; opacity: 0.6;">ОНЛАЙН</span>
+                    <div style="flex:1.2; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 12px; border: 1px solid var(--border);">
+                        <span id="online-count" style="color: #55ff55; font-weight: 900; font-size: 1.1em;">0 / 0</span><br>
+                        <span style="font-size: 0.5em; opacity: 0.6;">ИГРОКИ</span>
                     </div>
                     <div style="flex:1; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 12px; border: 1px solid var(--border);">
                         <span id="status" style="color: #ff4444; font-weight: 900; font-size: 1.1em;">...</span><br>
@@ -121,31 +94,19 @@
                 <div class="donate-list">
                     <div class="tab" onclick="this.classList.toggle('active')">
                         <div class="tab-header" style="color: #ff4444;">ALUBA <span>+</span></div>
-                        <div class="tab-content">
-                            Верстак везде (/craft)<br>Утолить голод (/feed)<br>
-                            <b>Kit: /kit aluba</b>
-                        </div>
+                        <div class="tab-content">Верстак везде (/craft)<br>Утолить голод (/feed)<br><b>Kit: /kit aluba</b></div>
                     </div>
                     <div class="tab" onclick="this.classList.toggle('active')">
                         <div class="tab-header" style="color: #ff4444;">GL.ALUBA <span>+</span></div>
-                        <div class="tab-content">
-                            Эндер-сундук (/enderchest)<br>Лечение (/heal)<br>
-                            <b>Kit: /kit glaluba</b>
-                        </div>
+                        <div class="tab-content">Эндер-сундук (/enderchest)<br>Лечение (/heal)<br><b>Kit: /kit glaluba</b></div>
                     </div>
                     <div class="tab" onclick="this.classList.toggle('active')">
                         <div class="tab-header" style="color: var(--king);">KING <span>+</span></div>
-                        <div class="tab-content">
-                            Полет (/fly)<br>Потушить себя (/ext)<br>Кормить других (/feed)<br>
-                            <b>Kit: /kit king</b>
-                        </div>
+                        <div class="tab-content">Полет (/fly)<br>Потушить себя (/ext)<br>Кормить других (/feed)<br><b>Kit: /kit king</b></div>
                     </div>
                     <div class="tab" onclick="this.classList.toggle('active')">
                         <div class="tab-header" style="color: #55ff55;">СЕЗОННАЯ <span>+</span></div>
-                        <div class="tab-content">
-                            Права KING + уникальный сезонный префикс и набор ресурсов.<br>
-                            <b>Kit: /kit king + /kit season</b>
-                        </div>
+                        <div class="tab-content">Права KING + уникальный префикс и набор ресурсов.<br><b>Kit: /kit king + /kit season</b></div>
                     </div>
                 </div>
 
@@ -153,30 +114,29 @@
                     <a href="https://forms.gle/SNdRGodAwEc2qKWS7" target="_blank" class="btn" style="border-color:#55ff55">МОДЕР</a>
                     <a href="https://forms.gle/eSkMDbYfih8g3FjU6" target="_blank" class="btn" style="border-color:#ffaa00">БЛОГЕР</a>
                     <div class="social-row">
-                        <a href="https://vk.com" class="s-btn">VK</a>
-                        <a href="https://t.me" class="s-btn">TG</a>
-                        <a href="https://discord.gg" class="s-btn">DS</a>
+                        <a href="https://vk.com" target="_blank" class="s-btn">VK</a>
+                        <a href="https://t.me" target="_blank" class="s-btn">TG</a>
+                        <a href="https://discord.gg" target="_blank" class="s-btn">DS</a>
                     </div>
                 </div>
             </div>
-            <p class="hint">Листай вбок к HyperLand →</p>
+            <p class="hint">Вторая вкладка →</p>
         </section>
 
         <section>
             <div class="card">
-                <p style="font-size: 0.6em; letter-spacing: 2px; color: var(--partner); font-weight: bold;">ПАРТНЕР</p>
-                <h1 style="color: var(--partner); font-size: 2.2em; margin: 10px 0;">HyperLand</h1>
-                <p style="font-size: 0.8em; opacity: 0.7;">Глобальное открытие проекта</p>
-
+                <h1 class="site-title" style="background: linear-gradient(to right, var(--partner), #88f0ff); -webkit-background-clip: text;">AlubaworldOriginalSite</h1>
+                <p style="font-size: 0.7em; letter-spacing: 2px; color: var(--partner); font-weight: bold; margin-top: 15px;">ОТКРЫТИЕ ХАЙПЕРЛЕНД</p>
+                
                 <div class="timer-container" id="timer">
                     <div class="time-box"><span class="time-val" id="days">00</span><span class="time-lab">Дн</span></div>
                     <div class="time-box"><span class="time-val" id="hours">00</span><span class="time-lab">Час</span></div>
                     <div class="time-box"><span class="time-val" id="mins">00</span><span class="time-lab">Мин</span></div>
                     <div class="time-box"><span class="time-val" id="secs">00</span><span class="time-lab">Сек</span></div>
                 </div>
-                <p style="margin-top: 30px; font-size: 0.7em; color: var(--text-dim);">Все новости в соцсетях Alubaworld</p>
+                <p style="margin-top: 30px; font-size: 0.7em; color: var(--text-dim);">Следите за обновлениями на основном сайте</p>
             </div>
-            <p class="hint">← Назад к Aluba</p>
+            <p class="hint">← Назад</p>
         </section>
     </div>
 
@@ -191,7 +151,6 @@
             dots.forEach((dot, i) => dot.classList.toggle('active', i === page));
         }
 
-        // Листание вбок (колесико или тач)
         let xStart = null;
         window.addEventListener('touchstart', e => xStart = e.touches[0].clientX);
         window.addEventListener('touchend', e => {
@@ -203,13 +162,23 @@
         });
 
         async function updateServer() {
+            const statusEl = document.getElementById('status');
+            const onlineCountEl = document.getElementById('online-count');
             try {
                 const res = await fetch(`https://api.mcsrvstat.us/2/Alubaworld.aternos.me:11026?t=${Date.now()}`);
                 const data = await res.json();
-                document.getElementById('status').innerText = data.online ? "ОНЛАЙН" : "ОФЛАЙН";
-                document.getElementById('status').style.color = data.online ? "#55ff55" : "#ff4444";
-                document.getElementById('online').innerText = data.online ? data.players.online : "0";
-            } catch(e) {}
+                if (data.online) {
+                    statusEl.innerText = "ОНЛАЙН";
+                    statusEl.style.color = "#55ff55";
+                    onlineCountEl.innerText = `${data.players.online} / ${data.players.max}`;
+                } else {
+                    statusEl.innerText = "ОФЛАЙН";
+                    statusEl.style.color = "#ff4444";
+                    onlineCountEl.innerText = "0 / 0";
+                }
+            } catch(e) {
+                statusEl.innerText = "ОШИБКА";
+            }
         }
 
         function updateTimer() {
@@ -231,9 +200,9 @@
             alert("IP скопирован!");
         }
 
-        setInterval(updateServer, 20000);
+        setInterval(updateServer, 15000); 
         setInterval(updateTimer, 1000);
         updateServer(); updateTimer();
     </script>
 </body>
-                                              </html>
+                                                                                                                   </html>
