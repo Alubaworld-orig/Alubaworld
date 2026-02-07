@@ -1,235 +1,34 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AlubaworldOriginalSite</title>
-    <style>
-        :root {
-            --bg: #050507;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --text: #ffffff;
-            --text-dim: #aaa;
-            --border: rgba(255, 255, 255, 0.1);
-            --accent: #ff4444;
-            --king: #a333ff;
-            --partner: #00d4ff;
-            --version-color: #55ff55;
-            --shadow: none;
-            --btn-bg: rgba(255,255,255,0.03);
-        }
-
-        [data-theme="light"] {
-            --bg: #eef2f5;
-            --card-bg: #ffffff;
-            --text: #2c3e50;
-            --text-dim: #7f8c8d;
-            --border: rgba(0, 0, 0, 0.05);
-            --accent: #e74c3c;
-            --king: #9b59b6;
-            --partner: #3498db;
-            --version-color: #27ae60;
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
-            --btn-bg: #f8f9fa;
-        }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); transition: background 0.5s, color 0.3s; }
-
-        .carousel { display: flex; width: 200vw; height: 100vh; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        section { width: 100vw; height: 100vh; overflow-y: auto; padding: 40px 20px 100px 20px; display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
-
-        .card {
-            background: var(--card-bg); 
-            backdrop-filter: blur(20px); 
-            border: 1px solid var(--border);
-            border-radius: 28px; 
-            padding: 25px; 
-            width: 100%; 
-            max-width: 420px; 
-            text-align: center;
-            box-shadow: var(--shadow);
-            transition: 0.3s;
-        }
-
-        .nav-dots { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 100; }
-        .dot { width: 35px; height: 6px; border-radius: 3px; background: var(--border); cursor: pointer; transition: 0.3s; }
-        [data-theme="light"] .dot { background: #cbd5e0; }
-        .dot.active { background: var(--accent) !important; width: 60px; }
-
-        .section-title { font-size: 2.2em; font-weight: 900; margin: 0; background: linear-gradient(to right, var(--accent), #ff8888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .version-text { font-size: 0.75em; color: var(--version-color); margin: 5px 0; font-weight: bold; }
-        
-        .tab { margin-bottom: 8px; border-radius: 12px; border: 1px solid var(--border); background: var(--btn-bg); text-align: left; transition: 0.2s; }
-        .tab-header { padding: 12px 15px; cursor: pointer; font-size: 0.85em; font-weight: 800; display: flex; justify-content: space-between; }
-        .tab-content { max-height: 0; overflow: hidden; transition: 0.3s; padding: 0 15px; font-size: 0.8em; color: var(--text-dim); line-height: 1.6; }
-        .tab.active .tab-content { max-height: 250px; padding: 10px 15px; border-top: 1px solid var(--border); }
-
-        .status-box { flex:1; background: var(--btn-bg); padding: 10px; border-radius: 12px; border: 1px solid var(--border); position: relative; }
-        .refresh-btn { position: absolute; top: 5px; right: 8px; font-size: 0.9em; cursor: pointer; opacity: 0.4; transition: 0.3s; }
-        .refresh-btn:hover { opacity: 1; transform: rotate(90deg); }
-        
-        .timer-container { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
-        .time-box { background: rgba(0,212,255,0.05); padding: 10px; border-radius: 12px; border: 1px solid var(--partner); min-width: 65px; text-align: center; }
-        [data-theme="light"] .time-box { background: rgba(52, 152, 219, 0.1); }
-        .time-val { display: block; font-size: 1.2em; font-weight: 900; color: var(--partner); }
-        .time-lab { font-size: 0.5em; text-transform: uppercase; color: var(--text-dim); }
-
-        .btn-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
-        .btn { padding: 12px; border-radius: 12px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 0.75em; font-weight: bold; background: var(--btn-bg); text-align: center; transition: 0.2s; }
-        
-        .theme-btn { position: fixed; top: 15px; left: 15px; z-index: 110; padding: 8px 15px; border-radius: 20px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); cursor: pointer; font-size: 0.7em; font-weight: bold; box-shadow: var(--shadow); }
-        .hint { font-size: 0.6em; color: var(--text-dim); margin: 15px 0; text-transform: uppercase; letter-spacing: 1px; }
-    </style>
+    <title>Minecraft Server</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body data-theme="dark">
-
-    <button class="theme-btn" onclick="toggleTheme()">🌓 ТЕМА</button>
-
-    <div class="nav-dots">
-        <div class="dot active" id="dot0" onclick="scrollToPage(0)"></div>
-        <div class="dot" id="dot1" onclick="scrollToPage(1)"></div>
-    </div>
-
-    <div class="carousel" id="carousel">
-        <section>
-            <div class="card">
-                <h1 class="section-title">Alubaworld</h1>
-                <p class="version-text">Minecraft 1.16.5</p>
-                
-                <div style="background: rgba(0,0,0,0.05); padding: 12px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; color: var(--accent); font-weight: bold; margin: 15px 0; font-family: monospace; letter-spacing: 0.5px;" onclick="copyIP()">
-                    Alubaworld.aternos.me:11026
-                </div>
-
-                <div style="display: flex; gap: 8px;">
-                    <div style="flex:1.2; background: var(--btn-bg); padding: 10px; border-radius: 12px; border: 1px solid var(--border);">
-                        <span id="online-count" style="color: #55ff55; font-weight: 900; font-size: 1.1em;">0 / 0</span><br>
-                        <span style="font-size: 0.5em; opacity: 0.6;">ИГРОКИ</span>
-                    </div>
-                    <div class="status-box">
-                        <span class="refresh-btn" onclick="forceUpdate()">🔄</span>
-                        <span id="status" style="color: #ffaa00; font-weight: 900; font-size: 1.1em;">...</span><br>
-                        <span style="font-size: 0.5em; opacity: 0.6;">СТАТУС</span>
-                    </div>
-                </div>
-
-                <div class="donate-list" style="margin-top: 15px;">
-                    <div class="tab" onclick="this.classList.toggle('active')">
-                        <div class="tab-header" style="color: var(--accent);">ALUBA <span>+</span></div>
-                        <div class="tab-content">Верстак везде (/craft)<br>Утолить голод (/feed)<br><b>Kit: /kit aluba</b></div>
-                    </div>
-                    <div class="tab" onclick="this.classList.toggle('active')">
-                        <div class="tab-header" style="color: var(--accent);">GL.ALUBA <span>+</span></div>
-                        <div class="tab-content">Эндер-сундук (/enderchest)<br>Лечение (/heal)<br><b>Kit: /kit glaluba</b></div>
-                    </div>
-                    <div class="tab" onclick="this.classList.toggle('active')">
-                        <div class="tab-header" style="color: var(--king);">KING <span>+</span></div>
-                        <div class="tab-content">Полет (/fly)<br>Потушить себя (/ext)<br>Кормить других (/feed)<br><b>Kit: /kit king</b></div>
-                    </div>
-                    <div class="tab" onclick="this.classList.toggle('active')">
-                        <div class="tab-header" style="color: #27ae60;">СЕЗОННАЯ <span>+</span></div>
-                        <div class="tab-content">Права KING + уникальный префикс и набор ресурсов.<br><b>Kit: /kit king + /kit season</b></div>
-                    </div>
-                </div>
-
-                <div class="btn-group">
-                    <a href="https://forms.gle/SNdRGodAwEc2qKWS7" target="_blank" class="btn" style="border-color:var(--partner)">МОДЕР</a>
-                    <a href="https://forms.gle/eSkMDbYfih8g3FjU6" target="_blank" class="btn" style="border-color:var(--accent)">БЛОГЕР</a>
-                </div>
-            </div>
-            <p class="hint">AlubaworldOriginalSite</p>
+<body>
+    <header>
+        <h1>Welcome to HyperLand!</h1>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#status">Server Status</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="about">
+            <h2>About HyperLand</h2>
+            <p>HyperLand is your ultimate Minecraft adventure, offering endless possibilities in creativity, community, and exploration!</p>
         </section>
-
-        <section>
-            <div class="card">
-                <h1 class="section-title" style="background: linear-gradient(to right, var(--partner), #88f0ff); -webkit-background-clip: text;">HyperLand</h1>
-                <p style="font-size: 0.7em; letter-spacing: 2px; color: var(--partner); font-weight: bold; margin-top: 15px;">ДО ОТКРЫТИЯ:</p>
-                
-                <div class="timer-container">
-                    <div class="time-box"><span class="time-val" id="days">00</span><span class="time-lab">Дн</span></div>
-                    <div class="time-box"><span class="time-val" id="hours">00</span><span class="time-lab">Час</span></div>
-                    <div class="time-box"><span class="time-val" id="mins">00</span><span class="time-lab">Мин</span></div>
-                    <div class="time-box"><span class="time-val" id="secs">00</span><span class="time-lab">Сек</span></div>
-                </div>
-                
-                <p style="margin-top: 40px; font-size: 0.6em; opacity: 0.6;">
-                    © 2026 AlubaworldOriginalSite
-                </p>
-            </div>
-            <p class="hint">← Назад</p>
+        <section id="status">
+            <h2>Server Status</h2>
+            <p>Server is currently <span id="server-status">online</span>.</p>
         </section>
-    </div>
-
-    <script>
-        let currentIdx = 0;
-        function scrollToPage(idx) {
-            currentIdx = idx;
-            document.getElementById('carousel').style.transform = `translateX(-${idx * 100}vw)`;
-            document.getElementById('dot0').classList.toggle('active', idx === 0);
-            document.getElementById('dot1').classList.toggle('active', idx === 1);
-        }
-
-        let sX = 0;
-        window.addEventListener('touchstart', e => sX = e.touches[0].clientX);
-        window.addEventListener('touchend', e => {
-            let eX = e.changedTouches[0].clientX;
-            if (sX - eX > 60) scrollToPage(1);
-            if (sX - eX < -60) scrollToPage(0);
-        });
-
-        async function updateServer() {
-            const statusEl = document.getElementById('status');
-            const onlineCountEl = document.getElementById('online-count');
-            const ip = "Alubaworld.aternos.me";
-            const port = "11026";
-
-            try {
-                let response = await fetch(`https://api.mcsrvstat.us/2/${ip}:${port}`);
-                let data = await response.json();
-
-                if (data.online) {
-                    statusEl.innerText = "ОНЛАЙН";
-                    statusEl.style.color = (document.body.getAttribute('data-theme') === 'light') ? "#27ae60" : "#55ff55";
-                    onlineCountEl.innerText = `${data.players.online} / ${data.players.max}`;
-                } else {
-                    statusEl.innerText = "ОФФЛАЙН";
-                    statusEl.style.color = "#ff4444";
-                    onlineCountEl.innerText = "0 / 0";
-                }
-            } catch (e) {
-                statusEl.innerText = "ОШИБКА";
-            }
-        }
-
-        function forceUpdate() {
-            document.getElementById('status').innerText = "...";
-            updateServer();
-        }
-
-        function updateTimer() {
-            const diff = new Date("Feb 7, 2026 13:00:00").getTime() - new Date().getTime();
-            if (diff > 0) {
-                document.getElementById('days').innerText = Math.floor(diff / 864e5).toString().padStart(2, '0');
-                document.getElementById('hours').innerText = Math.floor((diff % 864e5) / 36e5).toString().padStart(2, '0');
-                document.getElementById('mins').innerText = Math.floor((diff % 36e5) / 6e4).toString().padStart(2, '0');
-                document.getElementById('secs').innerText = Math.floor((diff % 6e4) / 1000).toString().padStart(2, '0');
-            }
-        }
-
-        function toggleTheme() {
-            let current = document.body.getAttribute('data-theme');
-            document.body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
-            updateServer();
-        }
-
-        function copyIP() {
-            navigator.clipboard.writeText("Alubaworld.aternos.me:11026");
-            alert("IP скопирован!");
-        }
-
-        setInterval(updateServer, 15000); 
-        setInterval(updateTimer, 1000);
-        updateServer(); updateTimer();
-    </script>
+    </main>
+    <footer>
+        <p>&copy; 2026 Alubaworld-orig. All rights reserved.</p>
+    </footer>
+    <script src="status.js"></script>
 </body>
-                                              </html>
+</html>
