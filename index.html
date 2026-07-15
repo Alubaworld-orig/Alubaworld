@@ -16,37 +16,58 @@
         .page.active { display: block; }
         .copy-notify { animation: slideUp 2s forwards; }
         @keyframes slideUp { 0% { opacity: 0; transform: translateY(10px); } 10% { opacity: 1; transform: translateY(0); } 90% { opacity: 1; } 100% { opacity: 0; } }
+
+        /* Фоновые летние частицы (солнечные блики) */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
     </style>
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    colors: { aluba: '#00d4ff', glaluba: '#ff00ff', king: '#ffaa00', seasonal: '#ff4d4d' }
+                    colors: { 
+                        aluba: '#f59e0b',      /* Солнечный золотой */
+                        glaluba: '#10b981',    /* Тропический изумрудный */
+                        king: '#f97316',       /* Закатный оранжевый */
+                        seasonal: '#f43f5e'    /* Сочный коралловый */
+                    }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- Летний градиент: песчаный пляж днем / теплый океанский закат ночью -->
+<body class="bg-gradient-to-b from-amber-50 via-orange-50/30 to-sky-100 dark:from-slate-950 dark:via-blue-950/20 dark:to-slate-900 text-slate-900 dark:text-slate-100 min-h-screen relative overflow-x-hidden">
 
-    <nav class="p-6 flex justify-between items-center max-w-6xl mx-auto">
-        <div class="flex gap-6">
-            <button onclick="showPage('donate')" class="font-bold hover:text-blue-500 transition uppercase tracking-wider">Привилегии</button>
-            <button onclick="showPage('partner')" class="font-bold hover:text-blue-500 transition uppercase tracking-wider">Партнеры</button>
+    <!-- Задний фон для парящих бликов -->
+    <div id="particles-js"></div>
+
+    <nav class="p-6 flex justify-between items-center max-w-4xl mx-auto relative z-10">
+        <div class="flex gap-6 items-center">
+            <span class="font-black text-2xl tracking-tighter uppercase italic bg-gradient-to-r from-aluba to-king bg-clip-text text-transparent flex items-center gap-1">
+                <i data-lucide="sun" class="text-aluba animate-spin-slow"></i> Alubaworld
+            </span>
         </div>
-        <button onclick="toggleTheme()" class="p-2 rounded-xl bg-slate-200 dark:bg-slate-800 hover:scale-110 transition">
-            <i data-lucide="sun" class="hidden dark:block"></i>
-            <i data-lucide="moon" class="block dark:hidden"></i>
+        <button onclick="toggleTheme()" class="p-2 rounded-xl bg-amber-100/80 dark:bg-slate-800 hover:scale-110 transition">
+            <i data-lucide="sun" class="hidden dark:block text-aluba"></i>
+            <i data-lucide="moon" class="block dark:hidden text-king"></i>
         </button>
     </nav>
 
-    <section class="max-w-4xl mx-auto px-6 mb-8">
-        <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col md:flex-row justify-between items-center gap-6">
-            <div onclick="copyIP()" class="cursor-pointer group relative bg-slate-100 dark:bg-slate-900 px-6 py-3 rounded-2xl border-2 border-dashed border-blue-500/30 hover:border-blue-500 transition flex items-center gap-3">
-                <i data-lucide="copy" class="text-blue-500 group-hover:scale-110 transition"></i>
+    <section class="max-w-4xl mx-auto px-6 mb-8 relative z-10">
+        <div id="status-card" class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-6 rounded-3xl border border-orange-200/50 dark:border-slate-700 shadow-xl flex flex-col md:flex-row justify-between items-center gap-6">
+            <div onclick="copyIP()" class="cursor-pointer group relative bg-amber-50/50 dark:bg-slate-900 px-6 py-3 rounded-2xl border-2 border-dashed border-orange-400/30 hover:border-orange-400 transition flex items-center gap-3">
+                <i data-lucide="copy" class="text-orange-500 group-hover:scale-110 transition"></i>
                 <div>
-                    <p class="text-[10px] uppercase font-bold text-blue-500">Нажми, чтобы скопировать</p>
+                    <p class="text-[10px] uppercase font-bold text-orange-500">Нажми, чтобы скопировать</p>
                     <p id="server-ip" class="font-mono font-bold text-lg">Alubaworld.aternos.me:11026</p>
                 </div>
                 <div id="copy-toast" class="hidden absolute -top-12 left-1/2 -translate-x-1/2 bg-green-500 text-white text-xs py-2 px-4 rounded-lg shadow-lg copy-notify">Скопировано!</div>
@@ -57,10 +78,10 @@
                     <p class="text-[10px] uppercase font-bold opacity-50">Статус сервера</p>
                     <div id="status-container" class="flex items-center gap-2 justify-end font-bold">
                         <span id="status-dot" class="w-3 h-3 rounded-full bg-gray-400"></span>
-                        <span id="status-text text-lg">Загрузка...</span>
+                        <span id="status-text" class="text-lg">Загрузка...</span>
                     </div>
                 </div>
-                <div class="h-10 w-[1px] bg-slate-200 dark:bg-slate-700"></div>
+                <div class="h-10 w-[1px] bg-orange-200 dark:bg-slate-700"></div>
                 <div>
                     <p class="text-[10px] uppercase font-bold opacity-50 text-center">Онлайн</p>
                     <p id="player-count" class="font-bold text-lg text-center">0 / 0</p>
@@ -69,9 +90,10 @@
         </div>
     </section>
 
-    <main id="donate-page" class="page active max-w-4xl mx-auto p-6">
+    <main id="donate-page" class="page active max-w-4xl mx-auto p-6 relative z-10">
         <div class="grid gap-4">
-            <div class="card border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm">
+            <!-- ALUBA CARD -->
+            <div class="card border border-orange-100 dark:border-slate-800 bg-white/90 dark:bg-slate-800/90 rounded-2xl overflow-hidden shadow-sm transition-all duration-300">
                 <button onclick="toggleCard(this)" class="w-full p-6 flex justify-between items-center text-left">
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 bg-aluba rounded-lg flex items-center justify-center text-white shadow-lg shadow-aluba/20"><i data-lucide="box"></i></div>
@@ -80,23 +102,24 @@
                     <i data-lucide="chevron-down" class="chevron transition-transform opacity-50"></i>
                 </button>
                 <div class="card-content px-6 pb-6">
-                    <div class="grid md:grid-cols-2 gap-4 pt-4 border-t border-slate-100 dark:border-slate-700">
+                    <div class="grid md:grid-cols-2 gap-4 pt-4 border-t border-orange-100 dark:border-slate-700">
                         <div>
-                            <h4 class="text-amber-500 font-bold mb-2 flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4"></i> Возможности</h4>
+                            <h4 class="text-king font-bold mb-2 flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4"></i> Возможности</h4>
                             <ul class="space-y-1 text-sm opacity-80">
                                 <li>• <span class="text-aluba font-semibold">/craft</span> — Верстак везде</li>
                                 <li>• <span class="text-aluba font-semibold">/feed</span> — Утолить голод</li>
                             </ul>
                         </div>
                         <div>
-                            <h4 class="text-amber-500 font-bold mb-2 flex items-center gap-2"><i data-lucide="package" class="w-4 h-4"></i> Наборы</h4>
+                            <h4 class="text-king font-bold mb-2 flex items-center gap-2"><i data-lucide="package" class="w-4 h-4"></i> Наборы</h4>
                             <p class="text-sm opacity-80">• <span class="text-aluba font-semibold">/kit aluba</span> — Эксклюзив</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm">
+            <!-- GL.ALUBA CARD -->
+            <div class="card border border-orange-100 dark:border-slate-800 bg-white/90 dark:bg-slate-800/90 rounded-2xl overflow-hidden shadow-sm transition-all duration-300">
                 <button onclick="toggleCard(this)" class="w-full p-6 flex justify-between items-center text-left">
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 bg-glaluba rounded-lg flex items-center justify-center text-white shadow-lg shadow-glaluba/20"><i data-lucide="sparkles"></i></div>
@@ -105,23 +128,24 @@
                     <i data-lucide="chevron-down" class="chevron transition-transform opacity-50"></i>
                 </button>
                 <div class="card-content px-6 pb-6">
-                    <div class="grid md:grid-cols-2 gap-4 pt-4 border-t border-slate-100 dark:border-slate-700">
+                    <div class="grid md:grid-cols-2 gap-4 pt-4 border-t border-orange-100 dark:border-slate-700">
                         <div>
-                            <h4 class="text-amber-500 font-bold mb-2 flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4"></i> Возможности</h4>
+                            <h4 class="text-king font-bold mb-2 flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4"></i> Возможности</h4>
                             <ul class="space-y-1 text-sm opacity-80">
                                 <li>• <span class="text-glaluba font-semibold">/enderchest</span> — Эндер-сундук</li>
                                 <li>• <span class="text-glaluba font-semibold">/heal</span> — Лечить себя и других</li>
                             </ul>
                         </div>
                         <div>
-                            <h4 class="text-amber-500 font-bold mb-2 flex items-center gap-2"><i data-lucide="package" class="w-4 h-4"></i> Наборы</h4>
+                            <h4 class="text-king font-bold mb-2 flex items-center gap-2"><i data-lucide="package" class="w-4 h-4"></i> Наборы</h4>
                             <p class="text-sm opacity-80">• <span class="text-glaluba font-semibold">/kit glaluba</span></p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm">
+            <!-- KING CARD -->
+            <div class="card border border-orange-100 dark:border-slate-800 bg-white/90 dark:bg-slate-800/90 rounded-2xl overflow-hidden shadow-sm transition-all duration-300">
                 <button onclick="toggleCard(this)" class="w-full p-6 flex justify-between items-center text-left">
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 bg-king rounded-lg flex items-center justify-center text-white shadow-lg shadow-king/20"><i data-lucide="crown"></i></div>
@@ -130,57 +154,74 @@
                     <i data-lucide="chevron-down" class="chevron transition-transform opacity-50"></i>
                 </button>
                 <div class="card-content px-6 pb-6">
-                    <div class="grid md:grid-cols-2 gap-4 pt-4 border-t border-slate-100 dark:border-slate-700">
+                    <div class="grid md:grid-cols-2 gap-4 pt-4 border-t border-orange-100 dark:border-slate-700">
                         <div>
-                            <h4 class="text-amber-500 font-bold mb-2 flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4"></i> Возможности</h4>
+                            <h4 class="text-king font-bold mb-2 flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4"></i> Возможности</h4>
                             <ul class="space-y-1 text-sm opacity-80">
                                 <li>• <span class="text-king font-semibold">/fly</span> — Режим полета</li>
                                 <li>• <span class="text-king font-semibold">/ext</span> — Потушить игрока</li>
-                                <li>• <span class="text-king font-semibold">/feed <ник></span> — Накормить всех</li>
+                                <li>• <span class="text-king font-semibold">/feed &lt;ник&gt;</span> — Накормить всех</li>
                             </ul>
                         </div>
                         <div>
-                            <h4 class="text-amber-500 font-bold mb-2 flex items-center gap-2"><i data-lucide="package" class="w-4 h-4"></i> Наборы</h4>
+                            <h4 class="text-king font-bold mb-2 flex items-center gap-2"><i data-lucide="package" class="w-4 h-4"></i> Наборы</h4>
                             <p class="text-sm opacity-80">• <span class="text-king font-semibold">/kit king</span></p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card border-2 border-dashed border-seasonal bg-seasonal/5 rounded-2xl overflow-hidden shadow-lg shadow-seasonal/10">
+            <!-- SEASONAL CARD -->
+            <div class="card border-2 border-dashed border-seasonal bg-seasonal/5 rounded-2xl overflow-hidden shadow-lg shadow-seasonal/10 transition-all duration-300">
                 <button onclick="toggleCard(this)" class="w-full p-6 flex justify-between items-center text-left">
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-seasonal rounded-lg flex items-center justify-center text-white"><i data-lucide="star"></i></div>
-                        <span class="text-xl font-bold text-seasonal italic uppercase">Сезонная</span>
+                        <div class="w-12 h-12 bg-seasonal rounded-lg flex items-center justify-center text-white"><i data-lucide="palm-tree"></i></div>
+                        <span class="text-xl font-bold text-seasonal italic uppercase flex items-center gap-2">Летняя Сезонная <i data-lucide="sun" class="w-5 h-5 animate-spin-slow"></i></span>
                     </div>
                     <i data-lucide="chevron-down" class="chevron transition-transform text-seasonal"></i>
                 </button>
                 <div class="card-content px-6 pb-6">
                     <div class="pt-4 border-t border-seasonal/20 text-center">
-                        <p class="text-seasonal font-bold mb-2 uppercase tracking-tighter">Специальное предложение!</p>
+                        <p class="text-seasonal font-bold mb-2 uppercase tracking-tighter">Специальное летнее предложение!</p>
                         <p class="text-sm opacity-90 mb-1">• Доступ ко всем вещам <span class="font-bold">KING</span></p>
-                        <p class="text-sm opacity-90">• Уникальные сезонные /kit</p>
+                        <p class="text-sm opacity-90">• Уникальные летние /kit для быстрого старта на пляже!</p>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <main id="partner-page" class="page max-w-4xl mx-auto p-6 text-center">
-        <div class="py-20 bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700">
-            <h2 class="text-3xl font-bold mb-8 italic uppercase">Наш партнер</h2>
-            <div class="inline-block p-1 bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-500 rounded-3xl mb-6 shadow-2xl">
-                <div class="bg-white dark:bg-slate-900 p-8 rounded-[1.4rem]">
-                    <h3 class="text-5xl font-black mb-2 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">HyperLand</h3>
-                    <p class="text-slate-400 font-mono tracking-[0.3em] uppercase text-sm">mc.hyperland.fun</p>
-                </div>
-            </div>
-            <p class="max-w-md mx-auto opacity-70">Играйте на лучших серверах вместе с нами!</p>
-        </div>
-    </main>
+    <!-- Скрипт для создания солнечных бликов на фоне -->
+    <script>
+        function createParticles() {
+            const canvasContainer = document.getElementById('particles-js');
+            const particleCount = 25;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'absolute bg-amber-400/10 dark:bg-orange-500/5 rounded-full pointer-events-none transition-all duration-1000';
+                
+                const size = Math.random() * 15 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                canvasContainer.appendChild(particle);
+                
+                setInterval(() => {
+                    const moveX = (Math.random() - 0.5) * 50;
+                    const moveY = (Math.random() - 0.5) * 50;
+                    particle.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                }, Math.random() * 4000 + 3000);
+            }
+        }
+        createParticles();
+    </script>
 
     <script>
+        // Инициализация иконок Lucide
         lucide.createIcons();
+        document.querySelectorAll('[data-lucide="sun"]').forEach(el => el.classList.add('animate-[spin_12s_linear_infinite]'));
 
         // Переключение тем
         function toggleTheme() { document.documentElement.classList.toggle('dark'); }
@@ -189,14 +230,11 @@
         function toggleCard(button) {
             const card = button.parentElement;
             const isActive = card.classList.contains('active');
+            
             document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
-            if (!isActive) card.classList.add('active');
-        }
-
-        // Переключение страниц
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId + '-page').classList.add('active');
+            if (!isActive) {
+                card.classList.add('active');
+            }
         }
 
         // Копирование IP
@@ -208,35 +246,36 @@
             setTimeout(() => toast.classList.add('hidden'), 2000);
         }
 
-        // ПОЛУЧЕНИЕ СТАТУСА СЕРВЕРА
+        // ПОЛУЧЕНИЕ СТАТУСА СЕРВЕРА С ЗАЩИТОЙ ОТ КЭША
         async function updateStatus() {
             const ip = "Alubaworld.aternos.me:11026";
-            const statusText = document.querySelector('#status-container span:last-child');
+            const statusText = document.getElementById('status-text');
             const statusDot = document.getElementById('status-dot');
             const playerCount = document.getElementById('player-count');
 
             try {
-                const response = await fetch(`https://api.mcstatus.io/v2/status/java/${ip}`);
+                const response = await fetch(`https://api.mcstatus.io/v2/status/java/${ip}?t=${Date.now()}`);
                 const data = await response.json();
 
                 if (data.online) {
                     statusText.innerText = "ОНЛАЙН";
-                    statusText.className = "text-green-500";
+                    statusText.className = "text-green-500 text-lg";
                     statusDot.className = "w-3 h-3 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]";
                     playerCount.innerText = `${data.players.online} / ${data.players.max}`;
                 } else {
                     statusText.innerText = "ОФФЛАЙН";
-                    statusText.className = "text-red-500";
+                    statusText.className = "text-red-500 text-lg";
                     statusDot.className = "w-3 h-3 rounded-full bg-red-500";
                     playerCount.innerText = "0 / 0";
                 }
             } catch (error) {
                 statusText.innerText = "ОШИБКА";
-                statusText.className = "text-amber-500";
+                statusText.className = "text-amber-500 text-lg";
+                statusDot.className = "w-3 h-3 rounded-full bg-amber-500";
             }
         }
 
-        // Обновляем статус при загрузке и каждые 30 сек
+        // Первое обновление сразу, затем раз в 30 секунд
         updateStatus();
         setInterval(updateStatus, 30000);
     </script>
